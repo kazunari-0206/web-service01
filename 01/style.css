@@ -113,6 +113,10 @@ nav a:hover {
   width: 980px;
 }
 
+#contents {
+  overflow: hidden;
+}
+
 #main {
   float: left;
   min-height: 600px;
@@ -285,3 +289,182 @@ footer a {
 /* ========================================================
   リスト
 ======================================================== */
+.list > .title {
+  padding-left: 10px;
+  border-left: 6px solid #b6a489;
+}
+
+.panel-list {
+  overflow: hidden;
+  margin-right: -15px;
+}
+.panel-list > .panel {
+  float: left;
+  box-sizing: border-box;
+  margin-bottom: 15px;
+  padding-right: 15px;
+  min-height: 185px;
+  width: 25%;
+  color: #333;
+  text-decoration: none;
+  line-height: 1.2em;
+}
+
+a.panel:hover {
+  text-decoration: underline;
+}
+
+.panel-list > .panel img {
+  width: 100%;
+}
+.panel-list > .panel .panel-title {
+  margin: 0;
+}
+
+/* ========================================================
+  テーブルリスト
+======================================================== */
+.list-table > table {
+  width: 100%;
+  border-spacing: 0 5px;
+}
+
+.list-table th,
+.list-table td {
+  padding: 5px;
+}
+
+.list-table > .table > tbody td {
+  border-right: none;
+  background: #f6f5f4;
+}
+
+/* ========================================================
+  ボタン
+======================================================== */
+.btn {
+  padding: 15px 20px;
+  text-decoration: none;
+}
+
+.btn:hover {
+  text-decoration: none;
+}
+
+.btn.btn-primary {
+  background: #b6a489;
+  color: #fff;
+}
+
+.btn.btn-mid {
+  max-width: 150px;
+}
+
+/* ========================================================
+  フォーム
+======================================================== */
+label {
+  display: block;
+}
+/* Lesson9で追加 */
+label.err input {
+  background: #f7dcd9;
+}
+input[type="text"], input[type="password"] /* lesson9で追加 */, input[type="number"], .formselect, textarea {
+  margin-bottom: 15px;
+  font-size: 18px;
+  box-sizing: border-box;
+  padding: 10px;
+  width: 100%;
+  height: 60px;
+  border: none;
+  background: #f6f5f5;
+  display: block;
+}
+input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  vertical-align: middle;
+  background: #f6f5f5;
+}
+input[type="number"] {
+  width: 100%;
+  text-align: left;
+}
+input[type="submit"] {
+  font-size: 14px;
+  margin: 15px 0;
+  padding: 15px 30px;
+  width: 100%;
+  border: none;
+  background: #333;
+  color: #fff;
+}
+
+select:hover,
+input[type="submit"] {
+  cursor: pointer;
+}
+
+.form-container {
+  margin: 0 auto;
+}
+.page-1colum .form-container {
+  margin: 80px auto;
+}
+
+.form {
+  margin: 0 auto;
+  padding: 30px;
+  width: 400px;
+  border: 5px solid #f1f1f1;
+}
+.page-logined .form {
+  border: none;
+}
+
+.form .title {
+  margin-bottom: 40px;
+  text-align: center;
+}
+.form > .area-msg {
+  padding: 0 0 15px 0;
+  color: red;
+}
+
+.form .btn-container {
+  overflow: hidden;
+}
+.form .btn {
+  float: right;
+}
+.form .area-drop {
+  width: 100%;
+  height: 250px;
+  background: #f6f5f4;
+  margin-bottom: 15px;
+  text-align: center;
+  line-height: 250px;
+  color: #ccc;
+}
+.form .counter-tex {
+  text-align: right;
+}
+
+/* ========================================================
+  フォームグループ
+======================================================== */
+.form-group {
+  overflow: hidden;
+  position: relative;
+}
+.form-group > input {
+  float: left;
+}
+.form-group > .option {
+  float: left;
+  position: relative;
+  top: 40px;
+  display: block;
+  padding-left: 10px;
+}
