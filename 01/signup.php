@@ -8,14 +8,14 @@ ini_set('log_errors','on');
 ini_set('error_log','php.log');
 
 //エラーメッセージを定数に設定
-define('MSF01','入力必須です');
-define('MSF02','Emailの形式で入力してください');
-define('MSF03','パスワード（再入力）が合っていません');
-define('MSF04','半角英数字のみご利用いただけます');
-define('MSF05','6文字以上で入力してください');
-define('MSF06','255文字以内で入力してください');
-define('MSF07','エラーが発生しました。しばらくたってからやり直してください。');
-define('MSF08','そのEmailは既に登録されています');
+define('MSG01','入力必須です');
+define('MSG02','Emailの形式で入力してください');
+define('MSG03','パスワード（再入力）が合っていません');
+define('MSG04','半角英数字のみご利用いただけます');
+define('MSG05','6文字以上で入力してください');
+define('MSG06','255文字以内で入力してください');
+define('MSG07','エラーが発生しました。しばらくたってからやり直してください。');
+define('MSG08','そのEmailは既に登録されています');
 
 //エラーメッセージ格納用の配列
 $err_msg = array();
@@ -24,22 +24,112 @@ $err_msg = array();
 function validRepuired($str, $key) {
   if(empty($str)) {
     global $err_msg;
-    $err_msg['key'] = MSG01;
+    $err_msg[$key] = MSG01;
   }
+}
+//バリデーション関数（Email形式チェック)
+function validEmail($str, $key) {
+  if(!preg_match("/^([a-zA-Z0-9])+([a-zA-Z0-9\._-])*@([a-zA-Z0-9_-])+([a-zA-Z0-9\._-]+)+$/", $str)) {
+    global $err_msg;
+    $err_msg[$key] = MSG02;
+  }
+}
+//バリデーション関数（Email重複チェック）
+function validEmailDup($email){
+  global $err_msg;
+  //例外処理
+  try {
+    //DBへ接続
+    $dbh = dbConnect();
+  // SQL文作成
+  $sql = 'SELECT count(*) FROM users WHERE email = :email';
+  $date = array(':email => $email');
+  //  クエリ実行
+  $stmt = queryPost($dbh, $sql, $data);
+  // クエリ結果の値を取得
+  $result = $stmt->fetch(PDO::FETCH_ASSOC);
+  // array_shift関数は配列の先頭を取り出す関数です。クエリ結果は配列形式で入っているので、array_shiftで１つ目だけ取り出して判定します
+  if(!empty(array_shift($result))){
+    $err_msg['email'] = MSG08;
+  }
+  } catch (Exception $e){
+    error_log('エラー発生:' . $e->getMessage());
+    $err_msg['common'] = MSG07;
+  }
+}
+// バリデーション関数（同値チェック）
+function validMatch($str1, $str2, $key) {
+  if($str1 !== $str2) {
+    global $err_msg;
+    $err_msg[$key] = MSG03;
+  }
+}
+//バリデーション関数（最小文字数チェック）
+function validMinLen($str, $key, $min = 6) {
+  if(mb_strlen($str) < $min) {
+    global $err_msg;
+    $err_msg[$key] = MSG05;
+  }
+}
+//バリデーション関数（最大文字数チェック）
+function validMaxLen($str, $key, $max = 255) {
+  if(mb_strlen($str) > $max) {
+    global $err_msg;
+    $err_msg[$key] = MSG06;
+  }
+}
+// バリデーション関数（半角チェック）
+function validHalf($str, $key) {
+  if(!preg_match('/^[0-9a-zA-Z]*$/', $str)) {
+    global $err_msg;
+    $err_msg[$key] = MSG04;
+  }
+}
 
-  //post送信されていた場合
-  if(!empty($_POST)) {
+// DB接続関数
+function dbConnect() {
+  // DBへの接続準備
+  $dsn = 'mysql:dbname=freemarket;host=localhost;charset=utr8';
+  $user = 'root';
+  $password ='root';
+  $options = array(
+    //SQL実行失敗時にはエラーコードのみ設定
+    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+    // デフォルトフェッチモードを連想配列型式に設定
+    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+    // バッファードクエリを使う（一度に結果セットを全て取得し、サーバー負荷を軽減）
+    // SELECTで得た結果に対してもrowCountメソッドを使えるようにする
+    PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => true,
+  );
+  // PDOオブジェクト生成（DBへ接続）
+  $dbh = new PDO($dsn, $user, $password, $options);
+  return $dbh;
+}
+// SQL実行関数
+function queryPost($dbh, $sql, $data) {
+  // クエリー作成
+  $stmt = $dbh0->prepare($sql);
+  // プレースホルダに値をセットし、SQL文を実行
+  $stmt->execute($data);
+  return $stmt;
+}
+//post送信されていた場合
+if(!empty($_POST)) {
 
-    //変数にユーザー情報を代入
-    $email = $_POST['email'];
-    $pass = $_POST['pass'];
-    $pass_re = $_POST['pass_re'];
+  //変数にユーザー情報を代入
+  $email = $_POST['email'];
+  $pass = $_POST['pass'];
+  $pass_re = $_POST['pass_re'];
 
-    //未入力チェック
-    validRepuired($email, 'email');
-    validRepuired($pass, 'pass');
-    validRepuired($pass_re, 'pass_re');
+  //未入力チェック
+  validRepuired($email, 'email');
+  validRepuired($pass, 'pass');
+  validRepuired($pass_re, 'pass_re');
 
+  if(empty($err_msg)) {
+  
+    // emailの型式チェック
+    validEmail($email, 'email');
   }
 }
 ?>
