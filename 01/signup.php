@@ -1,3 +1,48 @@
+<?php
+
+error_reporting(E_ALL); //E_STRCTレベル以外のエラーを報告する
+ini_set('display_errors','On'); //画面にエラーを表示させるか
+//ログを取るか
+ini_set('log_errors','on');
+//ログの出力ファイルを指定
+ini_set('error_log','php.log');
+
+//エラーメッセージを定数に設定
+define('MSF01','入力必須です');
+define('MSF02','Emailの形式で入力してください');
+define('MSF03','パスワード（再入力）が合っていません');
+define('MSF04','半角英数字のみご利用いただけます');
+define('MSF05','6文字以上で入力してください');
+define('MSF06','255文字以内で入力してください');
+define('MSF07','エラーが発生しました。しばらくたってからやり直してください。');
+define('MSF08','そのEmailは既に登録されています');
+
+//エラーメッセージ格納用の配列
+$err_msg = array();
+
+//バリデーション関数（未入力チェック）
+function validRepuired($str, $key) {
+  if(empty($str)) {
+    global $err_msg;
+    $err_msg['key'] = MSG01;
+  }
+
+  //post送信されていた場合
+  if(!empty($_POST)) {
+
+    //変数にユーザー情報を代入
+    $email = $_POST['email'];
+    $pass = $_POST['pass'];
+    $pass_re = $_POST['pass_re'];
+
+    //未入力チェック
+    validRepuired($email, 'email');
+    validRepuired($pass, 'pass');
+    validRepuired($pass_re, 'pass_re');
+
+  }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
