@@ -43,7 +43,7 @@ function validEmailDup($email){
     $dbh = dbConnect();
   // SQL文作成
   $sql = 'SELECT count(*) FROM users WHERE email = :email';
-  $date = array(':email => $email');
+  $data = array(':email' => $email);
   //  クエリ実行
   $stmt = queryPost($dbh, $sql, $data);
   // クエリ結果の値を取得
@@ -89,7 +89,7 @@ function validHalf($str, $key) {
 // DB接続関数
 function dbConnect() {
   // DBへの接続準備
-  $dsn = 'mysql:dbname=freemarket;host=localhost;charset=utr8';
+  $dsn = 'mysql:dbname=freemarket;host=localhost;charset=utf8';
   $user = 'root';
   $password ='root';
   $options = array(
@@ -108,7 +108,7 @@ function dbConnect() {
 // SQL実行関数
 function queryPost($dbh, $sql, $data) {
   // クエリー作成
-  $stmt = $dbh0->prepare($sql);
+  $stmt = $dbh->prepare($sql);
   // プレースホルダに値をセットし、SQL文を実行
   $stmt->execute($data);
   return $stmt;
@@ -130,6 +130,44 @@ if(!empty($_POST)) {
   
     // emailの型式チェック
     validEmail($email, 'email');
+    // emailの最大文字数チェック
+    validMaxLen($email, 'email');
+    // email重複チェック
+    validEmailDup($email);
+
+    // パスワードの半角英数字チェック
+    validHalf($pass, 'pass');
+    // パスワード最大文字数チェック
+    validMaxLen($pass, 'pass');
+    // パスワード最小文字数チェック
+    validMinLen($pass, 'pass');
+
+    if(empty($err_msg)) {
+      // パスワードとパスワード再入力が合っているかチェック
+      validMinLen($pass, $pass_re, 'pass_re');
+
+      if(empty($err_msg)) {
+
+        //例外処理
+        try {
+          // DBへ接続
+          $dbh = dbConnect();
+          // SQL文作成
+          $sql = 'INSERT INTO users (email, password, login_time, create_date) VALUES(:email, :pass, :login_time, :create_date)';
+          $data = array(':email'=>$email, ':pass'=>password_hash($pass, PASSWORD_DEFAULT),
+          ':login_time'=> date('Y-m-d H:i:s'),
+          ':create_date'=> date('Y-m-d H:i:s'));
+          // クエリ実行
+          queryPost($dbh, $sql, $data);
+
+          header("Location:mypage.html"); //マイページへ
+
+        } catch (Exception $e) {
+          error_log('エラー発生:' . $e->getMessage());
+          $err_msg['common'] = MSG07;
+        }
+      }
+    }
   }
 }
 ?>
