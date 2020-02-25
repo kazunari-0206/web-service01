@@ -144,7 +144,7 @@ if(!empty($_POST)) {
 
     if(empty($err_msg)) {
       // パスワードとパスワード再入力が合っているかチェック
-      validMinLen($pass, $pass_re, 'pass_re');
+      validMatch($pass, $pass_re, 'pass_re');
 
       if(empty($err_msg)) {
 
