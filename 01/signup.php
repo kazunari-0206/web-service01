@@ -41,16 +41,16 @@ function validEmailDup($email){
   try {
     //DBへ接続
     $dbh = dbConnect();
-  // SQL文作成
-  $sql = 'SELECT count(*) FROM users WHERE email = :email';
-  $data = array(':email' => $email);
-  //  クエリ実行
-  $stmt = queryPost($dbh, $sql, $data);
-  // クエリ結果の値を取得
-  $result = $stmt->fetch(PDO::FETCH_ASSOC);
-  // array_shift関数は配列の先頭を取り出す関数です。クエリ結果は配列形式で入っているので、array_shiftで１つ目だけ取り出して判定します
-  if(!empty(array_shift($result))){
-    $err_msg['email'] = MSG08;
+    // SQL文作成
+    $sql = 'SELECT count(*) FROM users WHERE email = :email';
+    $data = array(':email' => $email);
+    //  クエリ実行
+    $stmt = queryPost($dbh, $sql, $data);
+    // クエリ結果の値を取得
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    // array_shift関数は配列の先頭を取り出す関数です。クエリ結果は配列形式で入っているので、array_shiftで１つ目だけ取り出して判定します
+    if(!empty(array_shift($result))){
+      $err_msg['email'] = MSG08;
   }
   } catch (Exception $e){
     error_log('エラー発生:' . $e->getMessage());
