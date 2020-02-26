@@ -144,7 +144,7 @@ if(!empty($_POST)) {
 
     if(empty($err_msg)) {
       // パスワードとパスワード再入力が合っているかチェック
-      validMinLen($pass, $pass_re, 'pass_re');
+      validMatch($pass, $pass_re, 'pass_re');
 
       if(empty($err_msg)) {
 
@@ -155,8 +155,8 @@ if(!empty($_POST)) {
           // SQL文作成
           $sql = 'INSERT INTO users (email, password, login_time, create_date) VALUES(:email, :pass, :login_time, :create_date)';
           $data = array(':email'=>$email, ':pass'=>password_hash($pass, PASSWORD_DEFAULT),
-          ':login_time'=> date('Y-m-d H:i:s'),
-          ':create_date'=> date('Y-m-d H:i:s'));
+                                  ':login_time'=> date('Y-m-d H:i:s'),
+                                  ':create_date'=> date('Y-m-d H:i:s'));
           // クエリ実行
           queryPost($dbh, $sql, $data);
 
@@ -191,7 +191,7 @@ if(!empty($_POST)) {
       <nav id="top-nav">
         <ul>
           <li><a href="signup.php" class="btn btn-primary">ユーザー登録</a></li>
-          <li><a href="login.html">ログイン</a></li>
+          <li><a href="login.php">ログイン</a></li>
         </ul>
       </nav>
     </div>
