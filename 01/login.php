@@ -1,3 +1,18 @@
+<?php
+
+//共通変数・関数ファイルを読み込み
+require('function.php');
+
+debug('「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「');
+debug('「 ログインページ ');
+debug('「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「');
+debugLogStart();
+
+//ログイン認証
+require('auth.php');
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
