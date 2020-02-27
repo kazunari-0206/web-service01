@@ -73,7 +73,7 @@ define('MSG09', 'メールアドレスまたはパスワードが違います');
 $err_msg = array();
 
 //バリデーション関数（未入力チェック）
-function validRepuired($str, $key){
+function validRequired($str, $key){
   if(empty($str)){
     global $err_msg;
     $err_msg[$key] = MSG01;
