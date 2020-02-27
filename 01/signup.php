@@ -11,9 +11,9 @@ if(!empty($_POST)) {
   $pass_re = $_POST['pass_re'];
 
   //未入力チェック
-  validRepuired($email, 'email');
-  validRepuired($pass, 'pass');
-  validRepuired($pass_re, 'pass_re');
+  validRequired($email, 'email');
+  validRequired($pass, 'pass');
+  validRequired($pass_re, 'pass_re');
 
   if(empty($err_msg)) {
   
