@@ -87,20 +87,4 @@ require('auth.php');
   </div>
 
   <!-- footer -->
-  <footer id="footer">
-    Copyright <a href="http://webukatu.com/">ウェブカツ!!WEBサービス部</a>.All Rights Reserved.
-  </footer>
-  
-  <!-- jquery読み込み -->
-  <script src="js/vendor/jquery-2.2.2.min.js"></script>
-  <!-- フッターを固定するjavascript追加 -->
-  <script>
-    $(function(){
-      var $ftr = $('#footer');
-      if(window.innerHeight > $ftr.offset().top + $ftr.outerHeight()){
-        $ftr.attr({'style': 'position:fixed; top:' + (window.innerHeight - $ftr.outerHeight()) + 'px;' });
-      }
-    })
-  </script>
-</body>
-</html>
+  require('footer.php');
