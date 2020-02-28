@@ -27,67 +27,70 @@ if(!empty($_POST)) {
   validRequired($email, 'email');
   validRequired($pass, 'pass');
   
-  // emailの形式チェック
-  validEmail($email, 'email');
-  // emailの最大文字数チェック
-  validMaxLen($email, 'email');
-  
-  // パスワードの半角英数字チェック
-  validHalf($pass, 'pass');
-  // パスワードの最大文字数チェック
-  validMaxLen($pass, 'pass');
-  // パスワードの最小文字数チェック
-  validMinLen($pass, 'pass');
-  
   if(empty($err_msg)) {
-    debug('バイデーションOKです。');
+
+    // emailの形式チェック
+    validEmail($email, 'email');
+    // emailの最大文字数チェック
+    validMaxLen($email, 'email');
+    
+    // パスワードの半角英数字チェック
+    validHalf($pass, 'pass');
+    // パスワードの最大文字数チェック
+    validMaxLen($pass, 'pass');
+    // パスワードの最小文字数チェック
+    validMinLen($pass, 'pass');
   
-    //例外処理
-    try {
-      // DBへ接続
-      $dbh = dbConnect();
-      // SQL文作成
-      $sql = 'SELECT password,id FROM users WHERE email = :email';
-      $data = array(':email' => $email);
-      // クエリ実行
-      $stmt = queryPost($dbh, $sql, $data);
-      // クエリ結果の値を取得
-      $result = $stmt->fetch(PDO::FETCH_ASSOC);
-  
-      debug('クエリ結果の中身: ' . print_r($result, true));
-  
-      // パスワード照合 password_verify関数はパスワード(第一引数)がハッシュ化されたパスワード(第二引数)とマッチするか
-      if(!empty($result) && password_verify($pass, array_shift($result))) {
-        debug('パスワードがマッチしました。');
-  
-        // ログイン有効期限（デフォルトを1時間とする）
-        $sesLimit = 60*60;
-        // 最終ログイン日時を現在日時に
-        $_SESSION['login_date'] = time(); // time関数は1970年1月1日 00:00:00 を0として、1秒経過するごとに1ずつ増加させた値が入る(タイムスタンプ)
-  
-        // ログイン保持にチェックがある場合
-        if($pass_save) {
-          debug('ログイン保持にチェックがあります。');
-          // ログイン有効期限を30日にしてセット
-          $_SESSION['login_limit'] = $sesLimit * 24 *30;
+    if(empty($err_msg)) {
+      debug('バイデーションOKです。');
+    
+      //例外処理
+      try {
+        // DBへ接続
+        $dbh = dbConnect();
+        // SQL文作成
+        $sql = 'SELECT password,id FROM users WHERE email = :email';
+        $data = array(':email' => $email);
+        // クエリ実行
+        $stmt = queryPost($dbh, $sql, $data);
+        // クエリ結果の値を取得
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+        debug('クエリ結果の中身: ' . print_r($result, true));
+    
+        // パスワード照合 password_verify関数はパスワード(第一引数)がハッシュ化されたパスワード(第二引数)とマッチするか
+        if(!empty($result) && password_verify($pass, array_shift($result))) {
+          debug('パスワードがマッチしました。');
+    
+          // ログイン有効期限（デフォルトを1時間とする）
+          $sesLimit = 60*60;
+          // 最終ログイン日時を現在日時に
+          $_SESSION['login_date'] = time(); // time関数は1970年1月1日 00:00:00 を0として、1秒経過するごとに1ずつ増加させた値が入る(タイムスタンプ)
+    
+          // ログイン保持にチェックがある場合
+          if($pass_save) {
+            debug('ログイン保持にチェックがあります。');
+            // ログイン有効期限を30日にしてセット
+            $_SESSION['login_limit'] = $sesLimit * 24 *30;
+          } else {
+            debug('ログイン保持にチェックはありません。');
+            // ログイン保持しないので、ログイン有効期限を1時間後にセット
+            $_SESSION['login_limit'] = $sesLimit;
+          }
+          // ユーザーIDを格納
+          $_SESSION['user_id'] = $result['id'];
+    
+          debug('セッション変数の中身 :' . print_r($_SESSION, true));
+          debug('マイページへ遷移します。');
+          header("Location:mypage.php"); //マイページへ
         } else {
-          debug('ログイン保持にチェックはありません。');
-          // ログイン保持しないので、ログイン有効期限を1時間後にセット
-          $_SESSION['login_limit'] = $sesLimit;
+          debug('パスワードがアンマッチです');
+          $err_msg['common'] = MSG09;
         }
-        // ユーザーIDを格納
-        $_SESSION['user_id'] = $result['id'];
-  
-        debug('セッション変数の中身 :' . print_r($_SESSION, true));
-        debug('マイページへ遷移します。');
-        header("Location:mypage.php"); //マイページへ
-      } else {
-        debug('パスワードがアンマッチです');
-        $err_msg['common'] = MSG09;
+      } catch (Exception $e) {
+        error_log('エラー発生 :' . $e->getMessage());
+        $err_msg['common'] = MSG07;
       }
-    } catch (Exception $e) {
-      error_log('エラー発生 :' . $e->getMessage());
-      $err_msg['common'] = MSG07;
     }
   }
 }

@@ -1,6 +1,12 @@
 <?php
 
+//共通変数・関数ファイルを読込み
 require('function.php');
+
+debug('「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「');
+debug('「ユーザー登録ページ');
+debug('「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「');
+debugLogStart();
 
 //post送信されていた場合
 if(!empty($_POST)) {
@@ -47,9 +53,26 @@ if(!empty($_POST)) {
                                   ':login_time'=> date('Y-m-d H:i:s'),
                                   ':create_date'=> date('Y-m-d H:i:s'));
           // クエリ実行
-          queryPost($dbh, $sql, $data);
+          $stmt = queryPost($dbh, $sql, $data);
 
-          header("Location:mypage.php"); //マイページへ
+          // クエリ成功の場合
+          if($stmt) {
+            //ログイン有効期限（デフォルトを1時間とする）
+            $sesLimit = 60*60;
+            // 最終ログイン日時を現在日時に
+            $_SESSION['login_date'] = time();
+            $_SESSION['login_limit'] = $sesLimit;
+            // ユーザーIDを格納
+            $_SESSION['user_id'] = $dbh->lastInsertId();
+
+            debug('セッション変数の中身 :' . print_r($_SESSION, true));
+
+            header("Location:mypage.php"); //マイページへ
+          } else {
+            error_log('クエリに失敗しました。');
+            $err_msg['common'] = MSG07;
+          }
+
 
         } catch (Exception $e) {
           error_log('エラー発生:' . $e->getMessage());
