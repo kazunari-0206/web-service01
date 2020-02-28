@@ -1,4 +1,104 @@
 <?php
+
+//共通変数・関数ファイルを読み込み
+require('function.php');
+
+debug('「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「');
+debug('「 プロフィール編集ページ ');
+debug('「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「');
+debugLogStart();
+
+//ログイン認証
+require('auth.php');
+
+//================================
+// プロフィール編集画面処理
+//================================
+// DBからユーザーデータを取得
+$dbFormData = getUser($_SESSION['user_id']);
+
+debug('取得したユーザー情報 :' . print_r($dbFormData, true));
+
+// POST送信されていた場合
+if(!empty($_POST)) {
+  debug('POST送信があります。');
+  debug('POST情報 :' . print_r($_POST, true));
+
+  // 変数にユーザー情報を代入
+  $username = $_POST['username'];
+  $tel = $_POST['tel'];
+  $zip = (!empty($_POST['zip'])) ? $_POST['zip'] : 0; //後続のバリデーションにひっかかるため、空で送信されてきたら0を入れる
+  $addr = $_POST['addr'];
+  $age = $_POST['age'];
+  $email = $_POST['email'];
+
+  // DBの情報と入力情報が異なる場合にバリデーションを行う
+  if($dbFormData['username'] !== $username) {
+    // 名前の最大文字数チェック
+    validMaxLen($username, 'username');
+  }
+  if($dbFormData['tel'] !== $tel) {
+    // TEL形式チェック
+    validTel($tel, 'tel');
+  }
+  if((int)$dbFormData['zip'] !== $zip) { //DBデータをint型にキャスト（型変更）して比較
+    // 郵便番号形式チェック
+    validZip($zip, 'zip');
+  }
+  if($dbFormData['addr'] !== $addr) {
+    validMaxLen($addr, 'addr');
+  }
+  if($dbFormData['age'] !== $age) {
+    // 年齢の最大文字数チェック
+    validMaxLen($age, 'age');
+    // 年齢の半角数字チェック
+    validNumber($age, 'age');
+  }
+  if($dbFormData['email'] !== $email) {
+    // emailの最大文字数チェック
+    validMaxLen($email, 'email');
+    if(empty($err_msg['email'])) {
+      // emailの重複チェック
+      validEmailDup($email);
+    }
+    // emailの形式チェック
+    validEmail($email, 'email');
+    // emailの未入力チェック
+    validRequired($email, 'email');
+  }
+
+  if(empty($err_msg)) {
+    debug('バリデーションOKです。');
+
+    //例外処理
+    try {
+      // DBへ接続
+      $dbh = dbConnect();
+      // SQL文作成
+      $sql = 'UPDATE users SET username = :u_name, tel = :tel, zip = :zip, addr = :addr, age = :age, email = :email WHERE id = :u_id AND delete_flg = 0';
+      $data = array(':u_name' => $username, ':tel' => $tel, ':zip' => $zip, ':addr' => $addr, ':age' => $age, ':email' => $email, ':u_id' => $dbFormData['id']);
+      // クエリ実行
+      $stmt = queryPost($dbh, $sql, $data);
+
+      // クエリ成功の場合
+      if($stmt) {
+        debug('クエリ成功');
+        debug('マイページへ遷移します。');
+        header("Location:mypage.php"); //マイページへ
+      } else {
+        debug('クエリに失敗しました。');
+        $err_msg['common'] = MSG08;
+      }
+
+    } catch (Exception $e) {
+      error_log('エラー:' . $e->getMessage());
+      $err_msg['common'] = MSG07;
+    }
+  }
+}
+debug('画面表示処理終了 <<<<<<<<<<<<<<<<<<<<<<<<<<');
+?>
+<?php
 $siteTitle = 'プロフィール編集';
 require('head.php'); 
 ?>
@@ -76,7 +176,7 @@ require('head.php');
               if(!empty($err_msg['email'])) echo $err_msg['email'];
               ?>
             </div>
-            
+
             <div class="btn-container">
               <input type="submit" class="btn btn-mid" value="変更する">
             </div>
