@@ -67,7 +67,7 @@ require('head.php');
               <img src="img/sample04.jpg" alt="商品タイトル">
             </div>
             <div class="panel-body">
-              <p class="panel-title">ミスノ　クロスバイク <span class="price">¥29,000</span></p>
+              <p class="panel-title">ミスノ クロスバイク <span class="price">¥29,000</span></p>
             </div>
           </a>
         </section>
