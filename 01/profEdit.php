@@ -18,34 +18,64 @@ require('head.php');
         <div class="form-container">
           <form action="" method="post" class="form">
             <div class="area-msg">
-              TELは半角数字10文字以上で入力してください。<br>
-              年齢は半角数字で入力してください。<br>
-              ◯◯が長すぎます。
+              <?php
+              if(!empty($err_msg['common'])) echo $err_msg['common'];
+              ?>
             </div>
-            <label>
+            <label class="<?php if(!empty($err_msg['username'])) echo 'err'; ?>">
               名前
-              <input type="text" name="username">
+              <input type="text" name="username" value="<?php getFormData('username'); ?>">
             </label>
-            <label>
-              TEL
-              <input type="text" name="tel">
+            <div class="area-msg">
+              <?php
+              if(!empty($err_msg['username'])) echo $err_msg['username'];
+              ?>
+            </div>
+            <label class="<?php if(!empty($err_msg['tel'])) echo 'err' ?>">
+              TEL<span style="font-size:12px;margin-left:5px;">※ハイフン無しでご入力ください</span>
+              <input type="text" name="tel" value="<?php getFormData('tel'); ?>">
             </label>
-            <label>
-              郵便番号
-              <input type="text" name="zip">
+            <div class="area-msg">
+              <?php
+              if(!empty($err_msg['tel'])) echo $err_msg['tel'];
+              ?>
+            </div>
+            <label class="<?php if(!empty($err_msg['zip'])) echo 'err' ?>">
+              郵便番号<span style="font-size:12px;margin-left:5px;">※ハイフン無しでご入力ください</span>
+              <input type="text" name="zip" value="<?php if(!empty(getFormData('zip'))) { echo getFormData('zip');} ?>">
             </label>
-            <label>
+            <div class="area-msg">
+              <?php
+              if(!empty($err_msg['zip'])) echo $err_msg['zip'];
+              ?>
+            </div>
+            <label class="<?php if(!empty($err_msg['addr'])) echo 'err' ?>">
               住所
-              <input type="text" name="addr">
+              <input type="text" name="addr" value="<?php getFormData('addr'); ?>">
             </label>
-            <label style="text-align:left;">
+            <div class="area-msg">
+              <?php
+              if(!empty($err_msg['addr'])) echo $err_msg['addr'];
+              ?>
+            </div>
+            <label style="text-align:left;" class="<?php if(!empty($err_msg['age'])) echo 'err' ?>">
               年齢
-              <input type="number" name="age">
+              <input type="number" name="age" value="<?php getFormData('age'); ?>">
             </label>
-            <label>
+            <div class="area-msg">
+              <?php
+              if(!empty($err_msg['age'])) echo $err_msg['age'];
+              ?>
+            </div>
+            <label class="<?php if(!empty($err_msg['email'])) echo 'err' ?>">
               Email
-              <input type="text" name="email">
+              <input type="text" name="email" value="<?php getFormData('email'); ?>">
             </label>
+            <div class="area-msg">
+              <?php
+              if(!empty($err_msg['email'])) echo $err_msg['email'];
+              ?>
+            </div>
             
             <div class="btn-container">
               <input type="submit" class="btn btn-mid" value="変更する">
