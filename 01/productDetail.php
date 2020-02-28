@@ -78,10 +78,10 @@ require('head.php');
     <!-- メニュー -->
     <header>
       <div class="site-width">
-        <h1><a href="index.html">WEBUKATU MARKET</a></h1>
+        <h1><a href="index.php">WEBUKATU MARKET</a></h1>
         <nav id="top-nav">
           <ul>
-            <li><a href="signup.html" class="btn btn-primary">ユーザー登録</a></li>
+            <li><a href="signup.php" class="btn btn-primary">ユーザー登録</a></li>
             <li><a href="">ログイン</a></li>
           </ul>
         </nav>
@@ -122,7 +122,7 @@ require('head.php');
         </div>
         <div class="product-buy">
           <div class="item-left">
-            <a href="index.html">&lt; 商品一覧に戻る</a>
+            <a href="index.php">&lt; 商品一覧に戻る</a>
           </div>
           <div class="item-right">
             <button class="btn btn-primary">買う!</button>

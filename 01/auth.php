@@ -25,7 +25,7 @@ if(!empty($_SESSION['login_date'])) {
     //さらにbasename関数を使うことでファイル名だけを取り出せる
     if(basename($_SERVER['PHP_SELF']) === 'login.php') {
       debug('マイページへ遷移します。');
-      header("Location:maypage.html"); //マイページへ
+      header("Location:maypage.php"); //マイページへ
     }
   }
 

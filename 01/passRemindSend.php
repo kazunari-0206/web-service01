@@ -18,8 +18,8 @@ require('head.php');
 
         <div class="form-container">
 
-          <form action="passRemindRecieve.html" class="form">
-           <p>ご指定のメールアドレス宛にパスワード再発行用のURLと認証キーをお送り致します。</p>
+          <form action="passRemindRecieve.php" class="form">
+            <p>ご指定のメールアドレス宛にパスワード再発行用のURLと認証キーをお送り致します。</p>
             <label>
               Email
               <input type="text" name="email">
@@ -29,7 +29,7 @@ require('head.php');
             </div>
           </form>
         </div>
-        <a href="mypage.html">&lt; マイページに戻る</a>
+        <a href="mypage.php">&lt; マイページに戻る</a>
       </section>
 
     </div>

@@ -18,7 +18,7 @@ require('head.php');
 
         <div class="form-container">
 
-          <form action="passEdit.html" class="form">
+          <form action="passEdit.php" class="form">
             <p>ご指定のメールアドレスお送りした【パスワード再発行認証メール】内にある「認証キー」をご入力ください。</p>
             <div class="area-msg">
               認証キーが違います
@@ -32,7 +32,7 @@ require('head.php');
             </div>
           </form>
         </div>
-        <a href="passRemindSend.html">&lt; パスワード再発行メールを再度送信する</a>
+        <a href="passRemindSend.php">&lt; パスワード再発行メールを再度送信する</a>
       </section>
 
     </div>

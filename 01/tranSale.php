@@ -24,7 +24,7 @@ require('head.php');
       <!-- Main -->
       <section id="main" >
         <h1 class="page-title">販売履歴</h1>
-        <a href="mypage.html">&lt; マイページに戻る</a>
+        <a href="mypage.php">&lt; マイページに戻る</a>
       </section>
     </div>
 
