@@ -16,7 +16,7 @@ require('head.php');
       <!-- Main -->
       <section id="main" >
         <div class="form-container">
-          <form action="mypage.html" class="form">
+          <form action="mypage.php" class="form">
             <div class="area-msg">
               金額には数字を入力してください<br>
               商品名が長すぎます<br>
@@ -71,13 +71,9 @@ require('head.php');
       </section>
 
       <!-- サイドバー -->
-      <section id="sidebar">
-        <a href="registProduct.html">商品を登録する</a>
-        <a href="tranSale.html">販売履歴を見る</a>
-        <a href="profEdit.html">プロフィール編集</a>
-        <a href="passEdit.html">パスワード変更</a>
-        <a href="withdraw.html">退会</a>
-      </section>
+      <?php
+      require('sidebar_mypage');
+      ?>
     </div>
 
     <!-- footer -->
