@@ -65,13 +65,18 @@ define('MSG06', '255文字以内で入力してください');
 define('MSG07', 'エラーが発生しました。しばらく経ってからやり直してください。');
 define('MSG08', 'そのEmailは既に登録されています');
 define('MSG09', 'メールアドレスまたはパスワードが違います'); //必ずメールアドレスまたはパスワードとあいまいにする
+define('MSG10', '電話番号の形式が違います'); //必ずメールアドレスまたはパスワードとあいまいにする
+define('MSG11', '郵便番号の形式が違います'); //必ずメールアドレスまたはパスワードとあいまいにする
 
 //================================
-// バリデーション関数
+// グローバル変数
 //================================
 //エラーメッセージ格納用の配列
 $err_msg = array();
 
+//================================
+// バリデーション関数
+//================================
 //バリデーション関数（未入力チェック）
 function validRequired($str, $key){
   if(empty($str)){
@@ -137,7 +142,27 @@ function validHalf($str, $key){
     $err_msg[$key] = MSG04;
   }
 }
-
+// 電話番号形式チェック
+function validTel($str, $key) {
+  if(!preg_match("/0\d{1,4}\d{1,4}\d{4}/", $str)) {
+    global $err_msg;
+    $err_msg[$key] = MSG10;
+  }
+}
+// 郵便番号形式チェック
+function validZip($str, $key) {
+  if(!preg_match("/^\d{7}$/", $str)) {
+    global $err_msg;
+    $err_msg[$key] = MSG11;
+  }
+}
+// 半角数字チェック
+function validNumber($str, $key) {
+  if(!preg_match("/^[0-9]+$", $str)){
+    global $err_msg;
+    $err_msg[$key] = MSG11;
+  }
+}
 //================================
 // データベース
 //================================
@@ -167,5 +192,59 @@ function queryPost($dbh, $sql, $data){
   //プレースホルダに値をセットし、SQL文を実行
   $stmt->execute($data);
   return $stmt;
+}
+// ユーザー情報取得関数
+function getUser($u_id) {
+  debug('ユーザー情報を取得します。');
+  // 例外処理
+  try {
+    // DBへ接続
+    $dbh = dbConnect();
+    // SQL文作成
+    $sql = 'SELECT * FROM users WHERE id = :u_id';
+    $data = array(':u_id' => $u_id);
+    // クエリ実行
+    $stmt = queryPost($dbh, $sql, $data);
+
+    // クエリ成功時
+    if($stmt) {
+      debug('クエリ成功。');
+    } else {
+      debug('クエリに失敗しました。');
+    }
+  } catch (Exception $e) {
+    error_log('エラー発生 :' .$e->getMessage());
+  }
+  // クエリ結果のデータを返却
+  return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
+// フォーム入力保持
+function getFormData($str) {
+  global $dbFormData;
+  // ユーザーデータがある場合
+  if(!empty($dbFormData)){
+    // フォームのエラーがある場合
+    if(!empty($err_msg[$str])){
+      // POSTにデータがある場合
+      if(isset($_POST[$str])){ //金額や郵便番号などのフォームで数字や数値の0が入っている場合もあるので、issetを使うこと
+        return $_POST[$str];
+      } else {
+        // ない場合（フォームにエラーがある=POSTされてるはずなので、まずありえないが）はDBの情報を表示
+        return $dbFormData[$str];
+      }
+    } else {
+      // POSTにデータがあり、DBの情報と違う場合（このフォームも変更していてエラーはないが、他のフォームでひっかかっている状態）
+      if(isset($_POST[$str]) && $_POST[$str] !== $dbFormData[$str]) {
+        return $_POST[$str];
+      }else { //そもそも変更していない
+        return $dbFormData[$str];
+      }
+    }
+  } else {
+    if(isset($_POST[$str])) {
+      return $_POST[$str];
+    }
+  }
 }
 ?>
