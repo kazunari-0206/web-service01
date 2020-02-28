@@ -2,7 +2,7 @@ body {
   margin: 0;
   padding: 0;
   color: #444;
-  line-height: 150%;
+  /* line-height: 150%; */
 }
 
 h1, h2, h3, h4, h5, h6, p {
@@ -149,7 +149,6 @@ section h1.title {
   font-size: 32px;
   margin-bottom: 50px;
   text-align: center;
-  line-height: 50px;
 }
 
 /* ========================================================
