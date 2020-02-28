@@ -49,7 +49,7 @@ if(!empty($_POST)) {
           // クエリ実行
           queryPost($dbh, $sql, $data);
 
-          header("Location:mypage.html"); //マイページへ
+          header("Location:mypage.php"); //マイページへ
 
         } catch (Exception $e) {
           error_log('エラー発生:' . $e->getMessage());
@@ -61,30 +61,17 @@ if(!empty($_POST)) {
 }
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ユーザー登録 | WEBKATU MARKET</title>
-  <link rel="stylesheet" type="text/css" href="style.css">
-  <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Montserrat:400,700">
-</head>
+<?php
+$siteTitle = 'ユーザー登録';
+require('head.php');
+?>
 
 <body class="page-signup page-1colum">
 
   <!-- メニュー -->
-  <header>
-    <div class="site-width">
-      <h1><a href="index.html">WEBKATU MARKET</a></h1>
-      <nav id="top-nav">
-        <ul>
-          <li><a href="signup.php" class="btn btn-primary">ユーザー登録</a></li>
-          <li><a href="login.php">ログイン</a></li>
-        </ul>
-      </nav>
-    </div>
-  </header>
+  <?php
+  require('header.php');
+  ?>
 
   <!-- メインコンテンツ -->
   <div id="contents" class="site-width">
@@ -140,20 +127,6 @@ if(!empty($_POST)) {
   </div>
 
   <!-- footer -->
-  <footer id="footer">
-    Copyright <a href="http://webukatu.com/">ウェブカツ!!WEBサービス部</a>.All Rights Reserved.
-  </footer>
-  
-  <!-- jquery読み込み -->
-  <script src="js/vendor/jquery-2.2.2.min.js"></script>
-  <!-- フッターを固定するjavascript追加 -->
-  <script>
-    $(function(){
-      var $ftr = $('#footer');
-      if(window.innerHeight > $ftr.offset().top + $ftr.outerHeight()){
-        $ftr.attr({'style': 'position:fixed; top:' + (window.innerHeight - $ftr.outerHeight()) + 'px;' });
-      }
-    })
-  </script>
-</body>
-</html>
+  <?php
+  require('footer.php');
+  ?>

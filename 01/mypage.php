@@ -3,7 +3,7 @@
 require('function.php');
 
 debug('「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「');
-debug('「　マイページ　');
+debug('「マイページ');
 debug('「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「');
 debugLogStart();
 
@@ -34,50 +34,50 @@ require('head.php');
 
       <!-- Main -->
       <section id="main" >
-         <section class="list panel-list">
-           <h2 class="title">
+        <section class="list panel-list">
+          <h2 class="title">
             登録商品一覧
-           </h2>
-           <a href="" class="panel">
-             <div class="panel-head">
-               <img src="img/sample01.jpg" alt="商品タイトル">
-             </div>
-             <div class="panel-body">
-               <p class="panel-title">iPhone6s <span class="price">¥89,000</span></p>
-             </div>
-           </a>
-           <a href="" class="panel">
-             <div class="panel-head">
-               <img src="img/sample02.jpg" alt="商品タイトル">
-             </div>
-             <div class="panel-body">
-               <p class="panel-title">ASUS VivoBook E200HA <span class="price">¥75,000</span></p>
-             </div>
-           </a>
-           <a href="" class="panel">
-             <div class="panel-head">
-               <img src="img/sample06.jpg" alt="商品タイトル">
-             </div>
-             <div class="panel-body">
-               <p class="panel-title">MacBook Pro Retina <span class="price">¥89,000</span></p>
-             </div>
-           </a>
-           <a href="" class="panel">
-             <div class="panel-head">
-               <img src="img/sample04.jpg" alt="商品タイトル">
-             </div>
-             <div class="panel-body">
-               <p class="panel-title">ミスノ　クロスバイク <span class="price">¥29,000</span></p>
-             </div>
-           </a>
-         </section>
-         
-         <style>
-           .list{
-             margin-bottom: 30px;
-           }
+          </h2>
+          <a href="" class="panel">
+            <div class="panel-head">
+              <img src="img/sample01.jpg" alt="商品タイトル">
+            </div>
+            <div class="panel-body">
+              <p class="panel-title">iPhone6s <span class="price">¥89,000</span></p>
+            </div>
+          </a>
+          <a href="" class="panel">
+            <div class="panel-head">
+              <img src="img/sample02.jpg" alt="商品タイトル">
+            </div>
+            <div class="panel-body">
+              <p class="panel-title">ASUS VivoBook E200HA <span class="price">¥75,000</span></p>
+            </div>
+          </a>
+          <a href="" class="panel">
+            <div class="panel-head">
+              <img src="img/sample06.jpg" alt="商品タイトル">
+            </div>
+            <div class="panel-body">
+              <p class="panel-title">MacBook Pro Retina <span class="price">¥89,000</span></p>
+            </div>
+          </a>
+          <a href="" class="panel">
+            <div class="panel-head">
+              <img src="img/sample04.jpg" alt="商品タイトル">
+            </div>
+            <div class="panel-body">
+              <p class="panel-title">ミスノ　クロスバイク <span class="price">¥29,000</span></p>
+            </div>
+          </a>
+        </section>
+        
+        <style>
+          .list{
+            margin-bottom: 30px;
+          }
         </style>
-         
+        
         <section class="list list-table">
           <h2 class="title">
             連絡掲示板一覧
@@ -156,11 +156,11 @@ require('head.php');
       
       <!-- サイドバー -->
       <section id="sidebar">
-        <a href="registProduct.html">商品を出品する</a>
-        <a href="tranSale.html">販売履歴を見る</a>
-        <a href="profEdit.html">プロフィール編集</a>
-        <a href="passEdit.html">パスワード変更</a>
-        <a href="withdraw.html">退会</a>
+        <a href="registProduct.php">商品を出品する</a>
+        <a href="tranSale.php">販売履歴を見る</a>
+        <a href="profEdit.php">プロフィール編集</a>
+        <a href="passEdit.php">パスワード変更</a>
+        <a href="withdraw.php">退会</a>
       </section>
     </div>
 

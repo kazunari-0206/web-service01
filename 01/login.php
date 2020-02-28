@@ -80,7 +80,7 @@ if(!empty($_POST)) {
   
         debug('セッション変数の中身 :' . print_r($_SESSION, true));
         debug('マイページへ遷移します。');
-        header("Location:mypage.html"); //マイページへ
+        header("Location:mypage.php"); //マイページへ
       } else {
         debug('パスワードがアンマッチです');
         $err_msg['common'] = MSG09;
@@ -95,30 +95,17 @@ debug('画面表示処理終了 <<<<<<<<<<<<<<<<<<<<<<<<<<')
 ?>
 
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ログイン | WEBKATU MARKET</title>
-  <link rel="stylesheet" type="text/css" href="style.css">
-  <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Montserrat:400,700">
-</head>
+<?php
+$siteTitle = 'ログイン';
+require('head.php');
+?>
 
 <body class="page-login page-1colum">
 
-  <!-- メニュー -->
-  <header>
-    <div class="site-width">
-      <h1><a href="index.html">WEBKATU MARKET</a></h1>
-      <nav id="top-nav">
-        <ul>
-          <li><a href="signup.php" class="btn btn-primary">ユーザー登録</a></li>
-          <li><a href="login.html">ログイン</a></li>
-        </ul>
-      </nav>
-    </div>
-  </header>
+  <!-- ヘッダー -->
+  <?php
+  require('header.php');
+  ?>
 
   <!-- メインコンテンツ -->
   <div id="contents" class="site-width">
@@ -169,4 +156,6 @@ debug('画面表示処理終了 <<<<<<<<<<<<<<<<<<<<<<<<<<')
   </div>
 
   <!-- footer -->
+  <?php
   require('footer.php');
+  ?>
