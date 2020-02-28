@@ -156,7 +156,7 @@ require('head.php');
       
       <!-- サイドバー -->
       <?php
-      require('sidebar_mypage');
+      require('sidebar_mypage.php');
       ?>
     </div>
 

@@ -22,12 +22,12 @@ require('head.php');
       <section id="main" >
         <div class="form-container">
           <form action="" class="form">
-           <div class="area-msg">
-             古いパスワードが正しくありません。<br>
-             新しいパスワードと新しいパスワード（再入力）が一致しません。<br>
-             新しいパスワードは半角英数字6文字以上で入力してください。<br>
-             パスワードが長すぎます。
-           </div>
+            <div class="area-msg">
+              古いパスワードが正しくありません。<br>
+              新しいパスワードと新しいパスワード（再入力）が一致しません。<br>
+              新しいパスワードは半角英数字6文字以上で入力してください。<br>
+              パスワードが長すぎます。
+            </div>
             <label>
               古いパスワード
               <input type="text" name="pass_old">
@@ -49,7 +49,7 @@ require('head.php');
       
       <!-- サイドバー -->
       <?php
-      require('sidebar_mypage');
+      require('sidebar_mypage.php');
       ?>
     </div>
 
