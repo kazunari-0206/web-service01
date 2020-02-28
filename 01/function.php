@@ -158,9 +158,9 @@ function validZip($str, $key) {
 }
 // 半角数字チェック
 function validNumber($str, $key) {
-  if(!preg_match("/^[0-9]+$", $str)){
+  if(!preg_match("/^[0-9]+$/", $str)){
     global $err_msg;
-    $err_msg[$key] = MSG11;
+    $err_msg[$key] = MSG04;
   }
 }
 //================================
@@ -222,6 +222,7 @@ function getUser($u_id) {
 // フォーム入力保持
 function getFormData($str) {
   global $dbFormData;
+  global $err_msg;
   // ユーザーデータがある場合
   if(!empty($dbFormData)){
     // フォームのエラーがある場合
