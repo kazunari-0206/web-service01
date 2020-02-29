@@ -124,7 +124,7 @@ require('head.php');
             </div>
             <label class="<?php if(!empty($err_msg['username'])) echo 'err'; ?>">
               名前
-              <input type="text" name="username" value="<?php getFormData('username'); ?>">
+              <input type="text" name="username" value="<?php echo getFormData('username'); ?>">
             </label>
             <div class="area-msg">
               <?php
@@ -133,7 +133,7 @@ require('head.php');
             </div>
             <label class="<?php if(!empty($err_msg['tel'])) echo 'err' ?>">
               TEL<span style="font-size:12px;margin-left:5px;">※ハイフン無しでご入力ください</span>
-              <input type="text" name="tel" value="<?php getFormData('tel'); ?>">
+              <input type="text" name="tel" value="<?php echo getFormData('tel'); ?>">
             </label>
             <div class="area-msg">
               <?php
@@ -151,7 +151,7 @@ require('head.php');
             </div>
             <label class="<?php if(!empty($err_msg['addr'])) echo 'err' ?>">
               住所
-              <input type="text" name="addr" value="<?php getFormData('addr'); ?>">
+              <input type="text" name="addr" value="<?php echo getFormData('addr'); ?>">
             </label>
             <div class="area-msg">
               <?php
@@ -160,7 +160,7 @@ require('head.php');
             </div>
             <label style="text-align:left;" class="<?php if(!empty($err_msg['age'])) echo 'err' ?>">
               年齢
-              <input type="number" name="age" value="<?php getFormData('age'); ?>">
+              <input type="number" name="age" value="<?php echo getFormData('age'); ?>">
             </label>
             <div class="area-msg">
               <?php
@@ -169,7 +169,7 @@ require('head.php');
             </div>
             <label class="<?php if(!empty($err_msg['email'])) echo 'err' ?>">
               Email
-              <input type="text" name="email" value="<?php getFormData('email'); ?>">
+              <input type="text" name="email" value="<?php echo getFormData('email'); ?>">
             </label>
             <div class="area-msg">
               <?php
