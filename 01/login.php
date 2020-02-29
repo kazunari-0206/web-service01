@@ -28,18 +28,15 @@ if(!empty($_POST)) {
   validRequired($pass, 'pass');
   
   if(empty($err_msg)) {
-
+    debug('未入力チェックOK。');
+    
     // emailの形式チェック
     validEmail($email, 'email');
     // emailの最大文字数チェック
     validMaxLen($email, 'email');
     
-    // パスワードの半角英数字チェック
-    validHalf($pass, 'pass');
-    // パスワードの最大文字数チェック
-    validMaxLen($pass, 'pass');
-    // パスワードの最小文字数チェック
-    validMinLen($pass, 'pass');
+    // パスワードチェック
+    validPass($pass, 'pass');
   
     if(empty($err_msg)) {
       debug('バイデーションOKです。');
