@@ -21,25 +21,39 @@ require('head.php');
       <!-- Main -->
       <section id="main" >
         <div class="form-container">
-          <form action="" class="form">
+          <form action="" method="post" class="form">
             <div class="area-msg">
-              古いパスワードが正しくありません。<br>
-              新しいパスワードと新しいパスワード（再入力）が一致しません。<br>
-              新しいパスワードは半角英数字6文字以上で入力してください。<br>
-              パスワードが長すぎます。
+              <?php
+              echo getErrMsg('common');
+              ?>
             </div>
-            <label>
+            <label class="<?php if(!empty($err_msg['pass_old'])) echo 'err'; ?>">
               古いパスワード
-              <input type="text" name="pass_old">
+              <input type="text" name="pass_old" value="<?php echo getFormData('pass_old'); ?>">
             </label>
-            <label>
+            <div class="area-msg">
+              <?php
+              echo getErrMsg('pass_old');
+              ?>
+            </div>
+            <label class="<?php if(!empty($err_msg['pass_new'])) echo 'err'; ?>">
               新しいパスワード
-              <input type="text" name="pass_new">
+              <input type="text" name="pass_new" value="<?php echo getFormData('pass_new'); ?>">
             </label>
-            <label>
+            <div class="area-msg">
+              <?php
+              echo getErrMsg('pass_new');
+              ?>
+            </div>
+            <label class="<?php if(!empty($err_msg['pass_new_re'])) echo 'err'; ?>">
               新しいパスワード（再入力）
-              <input type="text" name="pass_new_re">
+              <input type="text" name="pass_new_re" value="<?php echo getFormData('pass_new_re'); ?>">
             </label>
+            <div class="area-msg">
+              <?php
+              echo getErrMsg('pass_new_re');
+              ?>
+            </div>
             <div class="btn-container">
               <input type="submit" class="btn btn-mid" value="変更する">
             </div>
