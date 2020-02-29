@@ -65,8 +65,12 @@ define('MSG06', '255文字以内で入力してください');
 define('MSG07', 'エラーが発生しました。しばらく経ってからやり直してください。');
 define('MSG08', 'そのEmailは既に登録されています');
 define('MSG09', 'メールアドレスまたはパスワードが違います'); //必ずメールアドレスまたはパスワードとあいまいにする
-define('MSG10', '電話番号の形式が違います'); //必ずメールアドレスまたはパスワードとあいまいにする
-define('MSG11', '郵便番号の形式が違います'); //必ずメールアドレスまたはパスワードとあいまいにする
+define('MSG10', '電話番号の形式が違います'); 
+define('MSG11', '郵便番号の形式が違います'); 
+define('MSG12', '古いパスワードが違います'); 
+define('MSG13', '古いパスワードと同じです'); 
+define('SUC01', 'パスワードを変更しました'); 
+define('SUC02', 'プロフィールを変更しました'); 
 
 //================================
 // グローバル変数
@@ -163,6 +167,23 @@ function validNumber($str, $key) {
     $err_msg[$key] = MSG04;
   }
 }
+// パスワードチェック
+function validPass($str, $key) {
+  // 半角英数字チェク
+  validHalf($str, $key);
+  // 最大文字数チェック
+  validMaxLen($str, $key);
+  // 最小文字数チェック
+  validMinLen($str, $key);
+}
+// エラーメッセージ表示
+function getErrMsg($key) {
+  global $err_msg;
+  if(!empty($err_msg[$key])) {
+    return $err_msg[$key];
+  }
+}
+
 //================================
 // データベース
 //================================
@@ -219,6 +240,29 @@ function getUser($u_id) {
   return $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
+//================================
+// メール送信
+//================================
+function sendMail($from, $to, $subject, $comment) {
+  if(!empty($to) && !empty($subject) && !empty($comment)) {
+    // 文字化けしないように設定（お決まりパターン）
+    mb_language("Japanese"); // 現在使っている言語を設定する
+    mb_internal_encoding("UTF-8"); // 内部の日本語をどうエンコーディング（機械が分かる言葉へ変換）するかを設定
+
+    // メールを送信（送信結果はtrueかfalseで帰ってくる）
+    $result = mb_send_mail($to, $subject, $comment, "From: " . $from);
+    // 送信結果を判定
+    if($result) {
+      debug('メールを送信しました。');
+    } else {
+      debug('【エラー発生】メールの送信に失敗しました。');
+    }
+  }
+}
+
+//================================
+// その他
+//================================
 // フォーム入力保持
 function getFormData($str) {
   global $dbFormData;
@@ -246,6 +290,14 @@ function getFormData($str) {
     if(isset($_POST[$str])) {
       return $_POST[$str];
     }
+  }
+}
+// sessionを1回だけ取得できる
+function getSessionFlash($key) {
+  if(!empty($_SESSION[$key])) {
+    $data = $_SESSION[$key];
+    $_SESSION[$key] = '';
+    return $data;
   }
 }
 ?>
