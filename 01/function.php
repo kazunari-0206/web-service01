@@ -69,8 +69,12 @@ define('MSG10', '電話番号の形式が違います');
 define('MSG11', '郵便番号の形式が違います'); 
 define('MSG12', '古いパスワードが違います'); 
 define('MSG13', '古いパスワードと同じです'); 
+define('MSG14', '文字で入力してください'); 
+define('MSG15', '正しくありません'); 
+define('MSG16', '有効期限が切れています'); 
 define('SUC01', 'パスワードを変更しました'); 
 define('SUC02', 'プロフィールを変更しました'); 
+define('SUC03', 'メールを送信しました'); 
 
 //================================
 // グローバル変数
@@ -167,6 +171,13 @@ function validNumber($str, $key) {
     $err_msg[$key] = MSG04;
   }
 }
+//固定長チェック
+function validLength($str, $key, $len = 8){
+  if( mb_strlen($str) !== $len){
+    global $err_msg;
+    $err_msg[$key] = MSG14;
+  }
+}
 // パスワードチェック
 function validPass($str, $key) {
   // 半角英数字チェク
@@ -222,7 +233,7 @@ function getUser($u_id) {
     // DBへ接続
     $dbh = dbConnect();
     // SQL文作成
-    $sql = 'SELECT * FROM users WHERE id = :u_id';
+    $sql = 'SELECT * FROM users WHERE id = :u_id AND delete_flg = 0';
     $data = array(':u_id' => $u_id);
     // クエリ実行
     $stmt = queryPost($dbh, $sql, $data);
@@ -299,5 +310,14 @@ function getSessionFlash($key) {
     $_SESSION[$key] = '';
     return $data;
   }
+}
+//認証キー生成
+function makeRandKey($length = 8){
+  $chrs = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJLKMNOPQRSTUVWXYZ0123456789';
+  $str = '';
+  for ($i = 0; $i < $length; ++$i) {
+    $str .= $chars[mt_rand(0, 61)];
+  }
+  return $str;
 }
 ?>
