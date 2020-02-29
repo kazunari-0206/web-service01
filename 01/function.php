@@ -313,7 +313,7 @@ function getSessionFlash($key) {
 }
 //認証キー生成
 function makeRandKey($length = 8){
-  $chrs = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJLKMNOPQRSTUVWXYZ0123456789';
+  $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJLKMNOPQRSTUVWXYZ0123456789';
   $str = '';
   for ($i = 0; $i < $length; ++$i) {
     $str .= $chars[mt_rand(0, 61)];
