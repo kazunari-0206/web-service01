@@ -83,6 +83,7 @@ if(!empty($_POST)) {
       // クエリ成功の場合
       if($stmt) {
         debug('クエリ成功');
+        $_SESSION['msg_success'] = SUC02;
         debug('マイページへ遷移します。');
         header("Location:mypage.php"); //マイページへ
       } else {
