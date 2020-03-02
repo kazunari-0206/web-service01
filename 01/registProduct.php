@@ -134,7 +134,7 @@ debug('画面表示処理終了 <<<<<<<<<<<<<<<<<<<<<<<<<<');
 ?>
 
 <?php
-$siteTitle = '商品出品登録';
+$siteTitle = (!$edit_flg) ? '商品出品登録' : '商品編集';
 require('head.php'); 
 ?>
 
@@ -147,27 +147,45 @@ require('head.php');
 
     <!-- メインコンテンツ -->
     <div id="contents" class="site-width">
-      <h1 class="page-title">商品を出品する</h1>
+      <h1 class="page-title"><?php echo (!$edit_flg) ? '商品を出品する' : '商品を編集する' ?></h1>
       <!-- Main -->
       <section id="main" >
         <div class="form-container">
-          <form action="mypage.php" class="form">
+          <form action="" method="post" class="form" enctype="multipart/form-data" style="width: 100%; box-sizing:border-box;">
             <div class="area-msg">
-              金額には数字を入力してください<br>
-              商品名が長すぎます<br>
-              詳細は500文字までです
+              <?php
+                echo getErrMsg('common');
+              ?>
             </div>
-            <label>
-              商品名
-              <input type="text" name="name">
+            <label class="<?php if(!empty($err_msg['name'])) echo 'err'; ?>">
+              商品名<span class="label-require">必須</span>
+              <input type="text" name="name" value="<?php echo getFormData('name'); ?>">
             </label>
-            <label>
-              カテゴリ
+            <div class="area-msg">
+              <?php
+                echo getErrMsg('name');
+              ?>
+            </div>
+            <label class="<?php if(!empty($err_msg['category_id'])) echo 'err'; ?>">
+              カテゴリ<span class="label-require">必須</span>
               <select name="category" id="">
-                <option value="1">スマホ</option>
-                <option value="2">自転車</option>
+                <option value="0" <?php if(getFormData('category_id') == 0){ echo 'selected'; } ?>>選択してください</option>
+                <?php
+                  foreach($dbCategoryData as $key => $val){
+                ?>
+                  <option value="<?php echo $val['id'] ?>" <?php if(getFormData('category_id') == $val['id']){ echo 'selected';} ?>>
+                    <?php echo $val['name']; ?>
+                  </option>
+                  <?php
+                  }
+                  ?>
               </select>
             </label>
+            <div class="area-msg">
+              <?php
+                echo getErrMsg('category_id');
+              ?>
+            </div>
             <label>
               詳細
               <textarea name="comment" id="" cols="30" rows="10" style="height:150px;"></textarea>
