@@ -121,6 +121,10 @@ require('head.php');
     <?php
       require('header.php'); 
     ?>
+    
+    <p id="js-show-msg" style="display:none;" class="msg-slide">
+      <?php echo getSessionFlash('msg_success'); ?>
+    </p>
 
     <!-- メインコンテンツ -->
     <div id="contents" class="site-width">
@@ -130,15 +134,22 @@ require('head.php');
 
         <div class="form-container">
 
-          <form action="passEdit.php" class="form">
+          <form action="" method="post" class="form">
             <p>ご指定のメールアドレスお送りした【パスワード再発行認証メール】内にある「認証キー」をご入力ください。</p>
             <div class="area-msg">
-              認証キーが違います
+            <?php
+            echo getErrMsg('common');
+            ?>
             </div>
-            <label>
+            <label class="<?php if(!empty($err_msg['token'])) echo 'err'; ?>">
               認証キー
-              <input type="text" name="token">
+              <input type="text" name="token" value="<?php echo getFormData('token'); ?>">
             </label>
+            <div class="area-msg">
+              <?php
+              echo getErrMsg('token');
+              ?>
+            </div>
             <div class="btn-container">
               <input type="submit" class="btn btn-mid" value="変更画面へ">
             </div>
