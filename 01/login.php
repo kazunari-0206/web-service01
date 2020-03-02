@@ -4,7 +4,7 @@
 require('function.php');
 
 debug('「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「');
-debug('「 ログインページ ');
+debug(' ログインページ ');
 debug('「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「');
 debugLogStart();
 
@@ -109,7 +109,7 @@ require('head.php');
 
   <p id="js-show-msg" style="display:none;" class="msg-slide">
       <?php echo getSessionFlash('msg_success'); ?>
-    </p>
+  </p>
     
   <!-- メインコンテンツ -->
   <div id="contents" class="site-width">
