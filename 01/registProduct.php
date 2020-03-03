@@ -62,7 +62,7 @@ if(!empty($_POST)){
     //未入力チェック
     validRequired($name, 'name');
     //最大文字数チェック
-    validMaxLen($name, 'name');
+    validMaxLen($name, 'name', 255);
     //セレクトボックスチェック
     validSelect($category, 'category_id');
     //最大文字数チェック
@@ -76,7 +76,7 @@ if(!empty($_POST)){
       //未入力チェック
       validRequired($name, 'name');
       //最大文字数チェック
-      validMaxLen($name, 'name');
+      validMaxLen($name, 'name', 255);
     }
     if($dbFormData['category_id'] !== $category){
       //セレクトボックスチェック

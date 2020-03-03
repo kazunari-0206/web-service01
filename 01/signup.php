@@ -26,16 +26,16 @@ if(!empty($_POST)) {
     // emailの型式チェック
     validEmail($email, 'email');
     // emailの最大文字数チェック
-    validMaxLen($email, 'email');
+    validMaxLen($email, 'email', 255);
     // email重複チェック
     validEmailDup($email);
 
     // パスワードの半角英数字チェック
     validHalf($pass, 'pass');
     // パスワード最大文字数チェック
-    validMaxLen($pass, 'pass');
+    validMaxLen($pass, 'pass', 255);
     // パスワード最小文字数チェック
-    validMinLen($pass, 'pass');
+    validMinLen($pass, 'pass', 6);
 
     if(empty($err_msg)) {
       // パスワードとパスワード再入力が合っているかチェック

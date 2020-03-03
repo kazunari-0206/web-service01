@@ -35,7 +35,7 @@ if(!empty($_POST)) {
   // DBの情報と入力情報が異なる場合にバリデーションを行う
   if($dbFormData['username'] !== $username) {
     // 名前の最大文字数チェック
-    validMaxLen($username, 'username');
+    validMaxLen($username, 'username', 255);
   }
   if($dbFormData['tel'] !== $tel) {
     // TEL形式チェック
@@ -46,17 +46,17 @@ if(!empty($_POST)) {
     validZip($zip, 'zip');
   }
   if($dbFormData['addr'] !== $addr) {
-    validMaxLen($addr, 'addr');
+    validMaxLen($addr, 'addr', 255);
   }
   if($dbFormData['age'] !== $age) {
     // 年齢の最大文字数チェック
-    validMaxLen($age, 'age');
+    validMaxLen($age, 'age', 255);
     // 年齢の半角数字チェック
     validNumber($age, 'age');
   }
   if($dbFormData['email'] !== $email) {
     // emailの最大文字数チェック
-    validMaxLen($email, 'email');
+    validMaxLen($email, 'email', 255);
     if(empty($err_msg['email'])) {
       // emailの重複チェック
       validEmailDup($email);

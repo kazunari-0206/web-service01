@@ -30,7 +30,7 @@ if(!empty($_POST)){
     //emailの形式チェック
     validEmail($email, 'email');
     //emailの最大文字数チェック
-    validMaxLen($email, 'email');
+    validMaxLen($email, 'email', 255);
 
     if(empty($err_msg)){
       debug('バリデーションOK。');

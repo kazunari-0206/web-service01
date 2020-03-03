@@ -33,7 +33,7 @@ if(!empty($_POST)) {
     // emailの形式チェック
     validEmail($email, 'email');
     // emailの最大文字数チェック
-    validMaxLen($email, 'email');
+    validMaxLen($email, 'email', 255);
     
     // パスワードチェック
     validPass($pass, 'pass');
