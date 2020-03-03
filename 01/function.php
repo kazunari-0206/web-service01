@@ -72,9 +72,11 @@ define('MSG13', '古いパスワードと同じです');
 define('MSG14', '文字で入力してください'); 
 define('MSG15', '正しくありません'); 
 define('MSG16', '有効期限が切れています'); 
+define('MSG17', '半角数字のみご利用いただけます'); 
 define('SUC01', 'パスワードを変更しました'); 
 define('SUC02', 'プロフィールを変更しました'); 
 define('SUC03', 'メールを送信しました'); 
+define('SUC04', '登録しました'); 
 
 //================================
 // グローバル変数
@@ -130,14 +132,14 @@ function validMatch($str1, $str2, $key){
   }
 }
 //バリデーション関数（最小文字数チェック）
-function validMinLen($str, $key, $min = 6){
+function validMinLen($str, $key, $min){
   if(mb_strlen($str) < $min){
     global $err_msg;
     $err_msg[$key] = MSG05;
   }
 }
 //バリデーション関数（最大文字数チェック）
-function validMaxLen($str, $key, $max = 255){
+function validMaxLen($str, $key, $max){
   if(mb_strlen($str) > $max){
     global $err_msg;
     $err_msg[$key] = MSG06;
@@ -168,7 +170,7 @@ function validZip($str, $key) {
 function validNumber($str, $key) {
   if(!preg_match("/^[0-9]+$/", $str)){
     global $err_msg;
-    $err_msg[$key] = MSG04;
+    $err_msg[$key] = MSG17;
   }
 }
 //固定長チェック
@@ -183,9 +185,16 @@ function validPass($str, $key) {
   // 半角英数字チェク
   validHalf($str, $key);
   // 最大文字数チェック
-  validMaxLen($str, $key);
+  validMaxLen($str, $key, 255);
   // 最小文字数チェック
-  validMinLen($str, $key);
+  validMinLen($str, $key, 6);
+}
+//selectboxチェック
+function validSelect($str, $key){
+  if(!preg_match("/^[0-9]+$/", $str)){
+    global $err_msg;
+    $err_msg[$key] = MSG15;
+  }
 }
 // エラーメッセージ表示
 function getErrMsg($key) {
@@ -218,11 +227,23 @@ function dbConnect(){
   return $dbh;
 }
 // SQL実行関数
+// function queryPost($dbh, $sql, $data){
+  // クエリー作成
+  // $stmt = $dbh->prepare($sql);
+  //プレースホルダに値をセットし、SQL文を実行
+  // $stmt->execute($data);
+  // return $stmt;
+// }
 function queryPost($dbh, $sql, $data){
   // クエリー作成
   $stmt = $dbh->prepare($sql);
   //プレースホルダに値をセットし、SQL文を実行
-  $stmt->execute($data);
+  if(!$stmt->execute($data)){
+    debug('クエリに失敗しました。');
+    $err_msg['common'] = MSG07;
+    return false;
+  }
+  debug('クエリ成功.');
   return $stmt;
 }
 // ユーザー情報取得関数
@@ -239,16 +260,23 @@ function getUser($u_id) {
     $stmt = queryPost($dbh, $sql, $data);
 
     // クエリ成功時
-    if($stmt) {
-      debug('クエリ成功。');
-    } else {
-      debug('クエリに失敗しました。');
+    // if($stmt) {
+    //   debug('クエリ成功。');
+    // } else {
+    //   debug('クエリに失敗しました。');
+    // }
+    //クエリ結果のデータを１レコード返却
+    if($stmt){
+      return $stmt->fetch(PDO::FETCH_ASSOC);
+    }else{
+      return false;
     }
+
   } catch (Exception $e) {
     error_log('エラー発生 :' .$e->getMessage());
   }
   // クエリ結果のデータを返却
-  return $stmt->fetch(PDO::FETCH_ASSOC);
+  // return $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
 //================================
