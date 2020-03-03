@@ -122,6 +122,7 @@ if(!empty($_POST)){
         $_SESSION['msg_success'] = SUC04;
         debug('マイページへ遷移します。');
         header("Location:mypage.php"); //マイページへ
+        exit;
       }
 
     } catch (Exception $e) {
@@ -186,38 +187,71 @@ require('head.php');
                 echo getErrMsg('category_id');
               ?>
             </div>
-            <label>
+            <label class="<?php if(!empty($err_msg['comment'])) echo 'err'; ?>">
               詳細
-              <textarea name="comment" id="" cols="30" rows="10" style="height:150px;"></textarea>
+              <textarea name="comment" id="js-count" cols="30" rows="10" style="height:150px;"><?php echo getFormData('comment'); ?></textarea>
             </label>
-            <p class="counter-text">0/500文字</p>
-            <label style="text-align:left;">
-              金額
+            <p class="counter-text"><span id="js-count-view">0</span>/500文字</p>
+            <div class="area-msg">
+              <?php
+                echo getErrMsg('comment');
+              ?>
+            </div>
+            <label style="text-align:left;" class="<?php if(!empty($err_msg['price'])) echo 'err'; ?>">
+              金額<span class="label-require">必須</span>
               <div class="form-group">
-                <input type="text" name="price" style="width:150px" placeholder="50,000"><span class="option">円</span>
+                <input type="text" name="price" style="width:150px" placeholder="50,000" value="<?php echo (!empty(getFormData('price'))) ? getFormData('price') : 0; ?>"><span class="option">円</span>
               </div>
             </label>
-            <label>
-              画像１
-              <div class="area-drop">
-                ここに画像をドラッグ＆ドロップ
+            <div class="area-msg">
+              <?php
+                echo getErrMsg('price');
+              ?>
+            </div>
+            <div style="overflow:hidden;">
+              <div class="imgDrop-container">
+                画像1
+                <label class="area-drop <?php if(!empty($err_msg['pic1'])) echo 'err'; ?>">
+                  <input type="hidden" name="MAX_FILE_SIZE" value="3145728">
+                  <input type="file" name="pic1" class="input-file">
+                  <img src="<?php echo getFormData('pic1'); ?>" alt="" class="prev-img" style="<?php if(empty(getFormData('pic1'))) echo 'display:none;' ?>">
+                </label>
+                <div class="area-msg">
+                  <?php
+                    echo getErrMsg('pic1');
+                  ?>
+                </div>
               </div>
-            </label>
-            <label>
-              画像２
-              <div class="area-drop">
-                ここに画像をドラッグ＆ドロップ
+              <div class="imgDrop-container">
+                画像2
+                <label class="area-drop <?php if(!empty($err_msg['pic2'])) echo 'err'; ?>">
+                  <input type="hidden" name="MAX_FILE_SIZE" value="3145728">
+                  <input type="file" name="pic2" class="input-file">
+                  <img src="<?php echo getFormData('pic2'); ?>" alt="" class="prev-img" style="<?php if(empty(getFormData('pic2'))) echo 'display:none;' ?>">
+                </label>
+                <div class="area-msg">
+                  <?php
+                    echo getErrMsg('pic2');
+                  ?>
+                </div>
               </div>
-            </label>
-            <label>
-              画像３
-              <div class="area-drop">
-                ここに画像をドラッグ＆ドロップ
+              <div class="imgDrop-container">
+                画像3
+                <label class="area-drop <?php if(!empty($err_msg['pic3'])) echo 'err'; ?>">
+                  <input type="hidden" name="MAX_FILE_SIZE" value="3145728">
+                  <input type="file" name="pic3" class="input-file">
+                  <img src="<?php echo getFormData('pic3'); ?>" alt="" class="prev-img" style="<?php if(empty(getFormData('pic3'))) echo 'display:none;' ?>">
+                </label>
+                <div class="area-msg">
+                  <?php
+                    echo getErrMsg('pic3');
+                  ?>
+                </div>
               </div>
-            </label>
+            </div>
 
             <div class="btn-container">
-              <input type="submit" class="btn btn-mid" value="出品する">
+              <input type="submit" class="btn btn-mid" value="<?php echo (!$edit_flg) ? '出品する' : '更新する'; ?>">
             </div>
           </form>
         </div>
