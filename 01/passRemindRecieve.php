@@ -94,7 +94,7 @@ EOT;
             debug('セッション変数の中身 :' .print_r($_SESSION, true));
 
             header("Location:login.php"); //ログインページへ
-            return;
+            exit;
           }else{
             debug('クエリに失敗しました。');
             $err_msg['common'] = MSG07;
