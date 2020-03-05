@@ -169,7 +169,7 @@ require('head.php');
             </div>
             <label class="<?php if(!empty($err_msg['category_id'])) echo 'err'; ?>">
               カテゴリ<span class="label-require">必須</span>
-              <select name="category" id="">
+              <select name="category_id" id="">
                 <option value="0" <?php if(getFormData('category_id') == 0){ echo 'selected'; } ?>>選択してください</option>
                 <?php
                   foreach($dbCategoryData as $key => $val){
@@ -215,6 +215,7 @@ require('head.php');
                   <input type="hidden" name="MAX_FILE_SIZE" value="3145728">
                   <input type="file" name="pic1" class="input-file">
                   <img src="<?php echo getFormData('pic1'); ?>" alt="" class="prev-img" style="<?php if(empty(getFormData('pic1'))) echo 'display:none;' ?>">
+                  ドラッグ＆ドロップ
                 </label>
                 <div class="area-msg">
                   <?php
@@ -228,6 +229,7 @@ require('head.php');
                   <input type="hidden" name="MAX_FILE_SIZE" value="3145728">
                   <input type="file" name="pic2" class="input-file">
                   <img src="<?php echo getFormData('pic2'); ?>" alt="" class="prev-img" style="<?php if(empty(getFormData('pic2'))) echo 'display:none;' ?>">
+                  ドラッグ＆ドロップ
                 </label>
                 <div class="area-msg">
                   <?php
@@ -241,6 +243,7 @@ require('head.php');
                   <input type="hidden" name="MAX_FILE_SIZE" value="3145728">
                   <input type="file" name="pic3" class="input-file">
                   <img src="<?php echo getFormData('pic3'); ?>" alt="" class="prev-img" style="<?php if(empty(getFormData('pic3'))) echo 'display:none;' ?>">
+                  ドラッグ＆ドロップ
                 </label>
                 <div class="area-msg">
                   <?php
