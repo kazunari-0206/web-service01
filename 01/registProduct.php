@@ -33,7 +33,8 @@ debug('カテゴリデータ : '.print_r($dbCategoryData, true));
 // GETパラメータはあるが、改ざんされている（URLをいじくった）場合、正しい商品データが取れないのでマイページへ遷移させる
 if(!empty($p_id) && empty($dbFormData)){
   debug('GETパラメータの商品IDが違います。 マイページへ遷移します。');
-  header('Location:mypage.php');
+  header("Location:mypage.php");
+  exit;
 }
 
 // POST送信時処理
@@ -86,7 +87,7 @@ if(!empty($_POST)){
       //最大文字数チェック
       validMaxLen($comment, 'comment', 500);
     }
-    if($dbFormData['price'] !== $price){ //前回まではキャストしていたが、ゆるい判定でもいい
+    if($dbFormData['price'] != $price){ //前回まではキャストしていたが、ゆるい判定でもいい
       //未入力チェック
       validRequired($price, 'price');
       //半角数字チェック
@@ -148,7 +149,7 @@ require('head.php');
 
     <!-- メインコンテンツ -->
     <div id="contents" class="site-width">
-      <h1 class="page-title"><?php echo (!$edit_flg) ? '商品を出品する' : '商品を編集する' ?></h1>
+      <h1 class="page-title"><?php echo (!$edit_flg) ? '商品を出品する' : '商品を編集する'; ?></h1>
       <!-- Main -->
       <section id="main" >
         <div class="form-container">
