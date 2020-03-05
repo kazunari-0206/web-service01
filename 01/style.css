@@ -2,17 +2,18 @@ body {
   margin: 0;
   padding: 0;
   color: #444;
-  /* line-height: 150%; */
+  line-height: 150%;
 }
 
-h1, h2, h3, h4, h5, h6, p {
+h1,h2,h3,h4,h5,h6,p{
   margin: 0;
   padding: 0;
 }
 
-/* ========================================================
+/*========================================
   リンク
-======================================================== */
+========================================*/
+
 a,
 a:active,
 a:focus {
@@ -21,10 +22,9 @@ a:focus {
 a:hover {
   text-decoration: none;
 }
-
-/* ========================================================
+/*========================================
   フォント
-======================================================== */
+========================================*/
 .num {
   font-family: 'Montserrat', sans-serif;
 }
@@ -34,17 +34,14 @@ a:hover {
   font-weight: bold;
   font-family: 'Montserrat', sans-serif;
 }
+/*トップバナー*/
 
-/* ========================================================
-  トップバナー
-======================================================== */
 #top-baner {
   width: 100%;
 }
-
-/* ========================================================
+/*========================================
   ヘッダー
-======================================================== */
+========================================*/
 header {
   margin-bottom: 30px;
   width: 100%;
@@ -66,10 +63,9 @@ header h1 a {
   color: #b6a489;
   text-decoration: none;
 }
-
-/* ========================================================
+/*========================================
   ナビゲーション
-======================================================== */
+========================================*/
 #top-nav {
   position: relative;
   float: right;
@@ -104,17 +100,13 @@ nav a:hover {
 #top-nav ul li {
   float: right;
 }
-
-/* ========================================================
+/*========================================
   レイアウト
-======================================================== */
+========================================*/
+
 .site-width {
   margin: 0 auto;
   width: 980px;
-}
-
-#contents {
-  overflow: hidden;
 }
 
 #main {
@@ -129,9 +121,9 @@ nav a:hover {
 .page-2colum #main {
   width: 760px;
 }
-.page-logined #main {
-  border: 5px solid #f1f1f1;
+.page-logined #main{
   box-sizing: border-box;
+  border: 5px solid #f1f1f1;
 }
 
 section h1.title {
@@ -139,21 +131,22 @@ section h1.title {
   font-family: 'Montserrat', sans-serif;
 }
 
-#contenst {
+#contents {
   overflow: hidden;
   margin: 20px auto;
 }
-
 /* ページタイトル */
-.page-title {
-  font-size: 32px;
-  margin-bottom: 50px;
-  text-align: center;
-}
 
-/* ========================================================
+.page-title {
+  margin-bottom: 50px;
+  padding-top: 20px; /* Lesson14にて追加 */
+  text-align: center;
+  font-size: 32px;
+}
+/*========================================
   サイドバー
-======================================================== */
+========================================*/
+
 #sidebar {
   float: left;
   box-sizing: border-box;
@@ -163,23 +156,28 @@ section h1.title {
   width: 200px;
   background: #f6f5f4;
 }
+
 #sidebar .title {
   text-align: left;
   font-size: 14px;
 }
+
 #sidebar .selectbox {
   position: relative;
 }
+
 #sidebar select {
   padding: 10px;
   width: 100%;
   border-color: #ccc;
   border-radius: 0;
   font-size: 14px;
+
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
 }
+
 #sidebar .icn_select:after {
   position: absolute;
   top: 15px;
@@ -193,17 +191,17 @@ section h1.title {
   border-left: 7px solid transparent;
   content: "";
 }
-.page-logined #sidebar {
+.page-logined #sidebar{
   margin: 0 0 0 20px;
 }
-.page-logined #sidebar > a {
+.page-logined #sidebar > a{
   display: block;
   margin-bottom: 15px;
 }
 
-/* ========================================================
+/*========================================
   フッター
-======================================================== */
+========================================*/
 
 footer {
   padding: 15px;
@@ -217,19 +215,20 @@ footer {
 footer a {
   color: #f6f5f5;
 }
+/*contact*/
 
-/* contact */
 #contact {
   margin-bottom: 150px;
 }
-
-/* ========================================================
+/*========================================
   ページネーション
-======================================================== */
+========================================*/
+
 .pagination {
   position: relative;
   overflow: hidden;
 }
+
 .pagination-list {
   position: relative;
   left: 50%;
@@ -237,15 +236,18 @@ footer a {
   padding-left: 0;
   list-style: none;
 }
+
 .pagination .list-item {
   position: relative;
   left: -50%;
   float: left;
   margin-right: 5px;
 }
+
 .pagination .list-item:last-child {
   margin-right: 0;
 }
+
 .pagination .list-item a {
   display: block;
   padding: 5px 10px;
@@ -254,18 +256,20 @@ footer a {
   text-decoration: none;
   font-family: 'Montserrat', sans-serif;
 }
+
 .pagination .list-item.active a {
   background: #333;
   color: white;
 }
+
 .pagination .list-item a:hover {
   background: #333;
   color: white;
 }
-
-/* ========================================================
+/*========================================
   検索エリア
-======================================================== */
+========================================*/
+
 .search-title {
   overflow: hidden;
   margin-bottom: 30px;
@@ -274,21 +278,25 @@ footer a {
   background: #f6f5f4;
   line-height: 40px;
 }
+
 .search-left {
   float: left;
 }
+
 .search-right {
   float: right;
 }
+
 .search-title .total-num {
   padding-right: 5px;
   font-weight: bold;
   font-size: 18px;
   font-family: 'Montserrat', sans-serif;
 }
-/* ========================================================
+/*========================================
   リスト
-======================================================== */
+========================================*/
+
 .list > .title {
   padding-left: 10px;
   border-left: 6px solid #b6a489;
@@ -298,6 +306,7 @@ footer a {
   overflow: hidden;
   margin-right: -15px;
 }
+
 .panel-list > .panel {
   float: left;
   box-sizing: border-box;
@@ -317,13 +326,13 @@ a.panel:hover {
 .panel-list > .panel img {
   width: 100%;
 }
+
 .panel-list > .panel .panel-title {
   margin: 0;
 }
+/* テーブルリスト
+========================================*/
 
-/* ========================================================
-  テーブルリスト
-======================================================== */
 .list-table > table {
   width: 100%;
   border-spacing: 0 5px;
@@ -338,10 +347,10 @@ a.panel:hover {
   border-right: none;
   background: #f6f5f4;
 }
-
-/* ========================================================
+/*========================================
   ボタン
-======================================================== */
+========================================*/
+
 .btn {
   padding: 15px 20px;
   text-decoration: none;
@@ -353,63 +362,62 @@ a.panel:hover {
 
 .btn.btn-primary {
   background: #b6a489;
-  color: #fff;
+  color: white;
 }
 
 .btn.btn-mid {
   max-width: 150px;
 }
-
-/* ========================================================
+/*========================================
   フォーム
-======================================================== */
-label {
+========================================*/
+label{
   display: block;
 }
-/* Lesson9で追加 */
-label.err input {
+label.err input, label.err select{
   background: #f7dcd9;
 }
-input[type="text"], input[type="password"] /* lesson9で追加 */, input[type="number"], .formselect, textarea {
-  margin-bottom: 15px;
-  font-size: 18px;
+input[type="text"], input[type="password"], input[type="number"], .form select,
+textarea {
+  display: block;
   box-sizing: border-box;
+  margin-bottom: 15px;
   padding: 10px;
   width: 100%;
   height: 60px;
   border: none;
   background: #f6f5f5;
-  display: block;
+  font-size: 18px;
 }
-input[type="checkbox"] {
+input[type="checkbox"]{
   width: 18px;
   height: 18px;
-  vertical-align: middle;
   background: #f6f5f5;
+  vertical-align: middle;
 }
 input[type="number"] {
-  width: 100%;
+  width: 100px;
   text-align: left;
 }
 input[type="submit"] {
-  font-size: 14px;
   margin: 15px 0;
   padding: 15px 30px;
   width: 100%;
   border: none;
   background: #333;
-  color: #fff;
+  color: white;
+  font-size: 14px;
 }
 
 select:hover,
-input[type="submit"] {
+input[type="submit"]:hover {
   cursor: pointer;
 }
 
 .form-container {
   margin: 0 auto;
 }
-.page-1colum .form-container {
+.page-1colum .form-container{
   margin: 80px auto;
 }
 
@@ -419,7 +427,15 @@ input[type="submit"] {
   width: 400px;
   border: 5px solid #f1f1f1;
 }
-.page-logined .form {
+.form .label-require{
+  margin-left: 5px;
+  background: #fe8a8b;
+  font-size: 14px;
+  padding: 3px 5px;
+  color: white;
+  vertical-align: bottom;
+}
+.page-logined .form{
   border: none;
 }
 
@@ -427,7 +443,7 @@ input[type="submit"] {
   margin-bottom: 40px;
   text-align: center;
 }
-.form > .area-msg {
+.form .area-msg{
   padding: 0 0 15px 0;
   color: red;
 }
@@ -435,50 +451,72 @@ input[type="submit"] {
 .form .btn-container {
   overflow: hidden;
 }
+
 .form .btn {
   float: right;
 }
-.form .area-drop {
-  width: 100%;
-  height: 250px;
-  background: #f6f5f4;
+.form .area-drop{
   margin-bottom: 15px;
-  text-align: center;
-  line-height: 250px;
+  width: 100%;
+  height: 140px;
+  background: #f6f5f4;
   color: #ccc;
+  text-align: center;
+  line-height: 150px;
+  position: relative;
+  box-sizing: border-box;
 }
-.form .counter-tex {
+.form .input-file{
+  opacity:0;
+  width:100%;
+  height:140px;
+  position:absolute;
+  top:0;
+  left:0;
+  z-index: 2; /* 必ずz-indexをつけないと登録画像を変更する際にドラッグ＆ドロップできなくなる*/
+}
+.form .prev-img{
+  width:100%;
+  position:absolute;
+  top:0;
+  left:0;
+}
+.form .imgDrop-container{
+  width: 33.333%;
+  float: left;
+  padding-right: 15px;
+  box-sizing: border-box;
+}
+.form .counter-text{
   text-align: right;
 }
-
-/* ========================================================
-  フォームグループ
-======================================================== */
-.form-group {
-  overflow: hidden;
+/* フォームグループ
+=================================*/
+.form-group{
   position: relative;
+  overflow: hidden;
 }
-.form-group > input {
+.form-group > input{
   float: left;
 }
-.form-group > .option {
-  float: left;
+.form-group > .option{
   position: relative;
   top: 40px;
   display: block;
+  float: left;
   padding-left: 10px;
 }
 
-/* ========================================================
+/*========================================
   その他
-======================================================== */
-.msg-slide {
+========================================*/
+.msg-slide{
   position: fixed;
   top: 0;
-  width: 100%;
-  height: 40px;
-  background: rgb(122,206,230,0.6);
+  width:100%;
+  height:40px;
+  background: rgba(122,206,230,0.6);
   text-align: center;
-  font-size: 16px;
+  font-size:16px;
   line-height: 40px;
 }
