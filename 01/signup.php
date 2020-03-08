@@ -68,6 +68,8 @@ if(!empty($_POST)) {
             debug('セッション変数の中身 :' . print_r($_SESSION, true));
 
             header("Location:mypage.php"); //マイページへ
+            exit;
+
           } else {
             error_log('クエリに失敗しました。');
             $err_msg['common'] = MSG07;

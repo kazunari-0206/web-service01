@@ -15,6 +15,8 @@ if(!empty($_SESSION['login_date'])) {
     session_destroy();
     // ログインページへ
     header("Location:login.php");
+    exit;
+
   } else {
     debug('ログイン有効期限以内です。');
     // 最終ログイン日時を現在日時に更新
@@ -26,6 +28,7 @@ if(!empty($_SESSION['login_date'])) {
     if(basename($_SERVER['PHP_SELF']) === 'login.php') {
       debug('マイページへ遷移します。');
       header("Location:maypage.php"); //マイページへ
+      exit;
     }
   }
 
@@ -33,5 +36,6 @@ if(!empty($_SESSION['login_date'])) {
   debug('未ログインユーザーです。');
   if(basename($_SERVER['PHP_SELF']) !== 'login.php'){
     header("Location:login.php"); //ログインページへ
+    exit;
   }
 }

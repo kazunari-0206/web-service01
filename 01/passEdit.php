@@ -90,6 +90,8 @@ EOT;
           sendMail($from, $to, $subject, $comment);
 
           header("Location:mypage.php"); // マイページへ
+          exit;
+
         } else {
           debug('クエリに失敗しました。');
           $err_msg['common'] = MSG07;

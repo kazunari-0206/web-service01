@@ -86,6 +86,8 @@ if(!empty($_POST)) {
         $_SESSION['msg_success'] = SUC02;
         debug('マイページへ遷移します。');
         header("Location:mypage.php"); //マイページへ
+        exit;
+
       } else {
         debug('クエリに失敗しました。');
         $err_msg['common'] = MSG08;

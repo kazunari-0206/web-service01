@@ -13,6 +13,7 @@ debugLogStart();
 //SESSIONに認証キーがあるか確認、なければリダイレクト
 if(empty($_SESSION['auth_key'])){
   header("Location:passRemindSend.php"); //認証キー送信ページへ
+  exit;
 }
 
 //================================
