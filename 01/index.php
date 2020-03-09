@@ -37,8 +37,8 @@ $dbProductData = getProductList($currentMinNum, $category, $sort);
 // DBからカテゴリデータを取得
 $dbCategoryData = getCategory();
 debug('現在のページ: '.$currentPageNum);
-debug('DBデータ:'.print_r($dbProductData, true));
-debug('カテゴリデータ:'.print_r($dbCategoryData, true));
+// debug('DBデータ:'.print_r($dbProductData, true));
+// debug('カテゴリデータ:'.print_r($dbCategoryData, true));
 
 debug('画面表示処理終了 <<<<<<<<<<<<<<<<<<<<<<<<<<');
 ?>
@@ -102,7 +102,7 @@ require('head.php');
           <?php
             foreach($dbProductData['data'] as $key => $val):
           ?>
-          <a href="productDetail.php?p_id=<?php echo (!empty(appendGetParam())) ? appendGetParam().'&p_id='.$val['id'] : '?p_id='.$val['id']; ?>" class="panel">
+          <a href="productDetail.php<?php echo (!empty(appendGetParam())) ? appendGetParam().'&p_id='.$val['id'] : '?p_id='.$val['id']; ?>" class="panel">
             <div class="panel-head">
               <img src="<?php echo sanitize($val['pic1']); ?>" alt="<?php echo sanitize($val['name']); ?>">
             </div>
@@ -115,7 +115,7 @@ require('head.php');
           ?>
         </div>
 
-            <?php pagination($currentPageNum, $dbProductData['total_page']); ?>
+            <?php pagination($currentPageNum, $dbProductData['total_page'], '&c_id='.$category.'&sort='.$sort); ?>
         
       </section>
 

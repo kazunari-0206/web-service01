@@ -1,4 +1,17 @@
 <?php
+//共通変数・関数ファイルを読込み
+require('function.php');
+
+debug('「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「');
+debug(' 連絡掲示板 ');
+debug('「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「');
+debugLogStart();
+
+//================================
+// 画面処理
+//================================
+
+
 $siteTitle = '連絡掲示板';
 require('head.php'); 
 ?>
@@ -132,6 +145,11 @@ require('head.php');
       require('header.php'); 
     ?>
 
+    <p id="js-show-msg" style="display:none;" class="msg-slide">
+      <?php echo getSessionFlash('msg_success'); ?>
+    </p>
+
+
     <!-- メインコンテンツ -->
     <div id="contents" class="site-width">
       <!-- Main -->
@@ -241,5 +259,5 @@ require('head.php');
 
     <!-- footer -->
     <?php
-      require('header.php'); 
+      require('footer.php'); 
     ?>

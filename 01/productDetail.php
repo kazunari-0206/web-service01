@@ -17,10 +17,8 @@ debugLogStart();
 //================================
 // 商品IDのGETパラメータを取得
 $p_id = (!empty($_GET['p_id'])) ? $_GET['p_id'] : '';
-debug('$p_idの中身：'.print_r($p_id, true));
 // DBから商品データを取得
 $viewData = getProductOne($p_id);
-debug('$viewDataの中身：'.print_r($viewData, true));
 // パラメータに不正な値が入っているかチェック
 if(empty($viewData)){
   error_log('エラー発生：指定ページに不正な値が入りました');
@@ -42,7 +40,7 @@ if(!empty($_POST['submit'])){
     $dbh = dbConnect();
     // SQL文作成
     $sql = 'INSERT INTO bord (sale_user, buy_user, product_id, create_date) VALUES (:s_uid, :b_uid, :p_id, :date)';
-    $data = array(':s_uid' => $viewData['user_id'], 'b_uid' => $_SESSION['user_id'], ':p_id' => $p_id, ':date' => date('Y-m-d H:i:s'));
+    $data = array(':s_uid' => $viewData['user_id'], ':b_uid' => $_SESSION['user_id'], ':p_id' => $p_id, ':date' => date('Y-m-d H:i:s'));
     // クエリ実行
     $stmt = queryPost($dbh, $sql, $data);
 
@@ -92,6 +90,8 @@ require('head.php');
       .product-img-container .img-main{
         width: 750px;
         float: left;
+        padding-right: 15px;
+        box-sizing: border-box;
       }
       .product-img-container .img-sub{
         width: 230px;
@@ -99,6 +99,9 @@ require('head.php');
         background: #f6f5f4;
         padding: 15px;
         box-sizing: border-box;
+      }
+      .product-img-container .img-sub:hover{
+        cursor: pointer;
       }
       .product-img-container .img-sub img{
         margin-bottom: 15px;
@@ -177,10 +180,10 @@ require('head.php');
             <div class="item-right">
               <input type="submit" value="買う！" name="submit" class="btn btn-primary" style="margin-top:0;">
             </div>
+          </form>
             <div class="item-right">
               <p class="price">¥<?php echo sanitize(number_format($viewData['price'])); ?>-</p>
             </div>
-          </form>
         </div>
 
       </section>

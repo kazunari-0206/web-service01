@@ -306,7 +306,7 @@ function getProduct($u_id, $p_id){
   }
 }
 
-function getProductList($currentMinNum = 1, $span = 20){
+function getProductList($currentMinNum = 1, $category, $sort, $span = 20){
   debug('商品情報を取得します。');
   //例外処理
   try {
@@ -314,6 +314,17 @@ function getProductList($currentMinNum = 1, $span = 20){
     $dbh = dbConnect();
     // 件数用のSQL文作成
     $sql = 'SELECT id FROM product';
+    if(!empty($category)) $sql .= ' WHERE category_id = '.$category;
+    if(!empty($sort)){
+      switch($sort){
+        case 1:
+          $sql .= ' ORDER BY price ASC';
+          break;
+        case 2:
+          $sql .= ' ORDER BY price DESC';
+          break;
+      }
+    }
     $data = array();
     // クエリ実行
     $stmt = queryPost($dbh, $sql, $data);
@@ -325,6 +336,17 @@ function getProductList($currentMinNum = 1, $span = 20){
 
     // ページング用のSQL文作成
     $sql = 'SELECT * FROM product';
+    if(!empty($category)) $sql .= ' WHERE category_id = '.$category;
+    if(!empty($sort)){
+      switch($sort){
+        case 1:
+          $sql .= ' ORDER BY price ASC';
+          break;
+        case 2:
+          $sql .= ' ORDER BY price DESC';
+          break;
+      }
+    }
     $sql .= ' LIMIT '.$span.' OFFSET '.$currentMinNum;
     $data = array();
     debug('SQL : '.$sql);
@@ -420,7 +442,12 @@ function sanitize($str){
   return htmlspecialchars($str, ENT_QUOTES);
 }
 // フォーム入力保持
-function getFormData($str) {
+function getFormData($str, $flg = false){
+  if($flg){
+    $method = $_GET;
+  }else{
+    $method = $_POST;
+  }
   global $dbFormData;
   global $err_msg;
   // ユーザーデータがある場合
@@ -428,23 +455,23 @@ function getFormData($str) {
     // フォームのエラーがある場合
     if(!empty($err_msg[$str])){
       // POSTにデータがある場合
-      if(isset($_POST[$str])){ //金額や郵便番号などのフォームで数字や数値の0が入っている場合もあるので、issetを使うこと
-        return sanitize($_POST[$str]);
+      if(isset($method[$str])){ //金額や郵便番号などのフォームで数字や数値の0が入っている場合もあるので、issetを使うこと
+        return sanitize($method[$str]);
       } else {
         // ない場合（フォームにエラーがある=POSTされてるはずなので、まずありえないが）はDBの情報を表示
         return sanitize($dbFormData[$str]);
       }
     } else {
       // POSTにデータがあり、DBの情報と違う場合（このフォームも変更していてエラーはないが、他のフォームでひっかかっている状態）
-      if(isset($_POST[$str]) && $_POST[$str] !== $dbFormData[$str]) {
-        return sanitize($_POST[$str]);
+      if(isset($method[$str]) && $method[$str] !== $dbFormData[$str]) {
+        return sanitize($method[$str]);
       }else { //そもそも変更していない
         return sanitize($dbFormData[$str]);
       }
     }
   } else {
-    if(isset($_POST[$str])) {
-      return sanitize($_POST[$str]);
+    if(isset($method[$str])) {
+      return sanitize($method[$str]);
     }
   }
 }
@@ -528,19 +555,19 @@ function uploadImg($file, $key){
 // $pageColNum : ページネーション表示数
 function pagination($currentPageNum, $totalPageNum, $link = '', $pageColNum = 5){
   // 現在のページが、総ページ数と同じ かつ 総ページ数が表示項目数以上なら、左にリンク４個出す
-  if($currentPageNum == $totalPageNum && $totalPageNum >= $pageColNum){
+  if($currentPageNum == $totalPageNum && $totalPageNum > $pageColNum){
     $minPageNum = $currentPageNum-4;
     $maxPageNum = $currentPageNum;
     // 現在のページが、総ページ数の１ページ前なら、左にリンク３個、右に１個出す
-  }elseif($currentPageNum == ($totalPageNum-1) && $totalPageNum >= $pageColNum){
+  }elseif($currentPageNum == ($totalPageNum-1) && $totalPageNum > $pageColNum){
     $minPageNum = $currentPageNum - 3;
     $maxPageNum = $currentPageNum + 1;
     // 現ページが２の場合は左にリンク１個、右にリンク３個出す。
-  }elseif($currentPageNum == 2 && $totalPageNum >= $pageColNum){
+  }elseif($currentPageNum == 2 && $totalPageNum > $pageColNum){
     $minPageNum = $currentPageNum - 1;
     $maxPageNum = $currentPageNum + 3;
     // 現ページが１の場合は左に何も出さない。右に５個出す。
-  }elseif($currentPageNum == 1 && $totalPageNum >= $pageColNum){
+  }elseif($currentPageNum == 1 && $totalPageNum > $pageColNum){
     $minPageNum = $currentPageNum;
     $maxPageNum = 5;
     // 総ページ数が表示項目数より少ない場合は、総ページ数をループのMax,ループのMinを１に設定
@@ -563,7 +590,7 @@ function pagination($currentPageNum, $totalPageNum, $link = '', $pageColNum = 5)
         if($currentPageNum == $i){ echo 'active'; }
         echo '"><a href="?p='.$i.$link.'">'.$i.'</a></li>';
       }
-      if($currentPageNum != $maxPageNum){
+      if($currentPageNum != $maxPageNum && $maxPageNum > 1){
         echo '<li class="list-item"><a href="?p='.$maxPageNum.$link.'">&gt;</a></li>';
       }
   echo '</ul>';
@@ -579,12 +606,12 @@ function showImg($path){
 }
 //GETパラメータ付与
 // $del_key : 付与から取り除きたいGETパラメータのキー
-function appendGetParam($arr_del_key){
+function appendGetParam($arr_del_key = array()){
   if(!empty($_GET)){
     $str = '?';
     foreach($_GET as $key => $val){
       if(!in_array($key,$arr_del_key,true)){ //取り除きたいパラメータじゃない場合にurlにくっつけるパラメータを生成
-        $str .= $key. '='.$val.'&';
+        $str .= $key.'='.$val.'&';
       }
     }
     $str = mb_substr($str, 0, -1, "UTF-8");
