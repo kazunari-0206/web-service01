@@ -390,7 +390,48 @@ function getProductOne($p_id){
     error_log('エラー発生：' . $e->getMessage());
   }
 }
+function getMsgsAndBord($id){
+  debug('msg情報を取得します。');
+  debug('掲示板ID：'.$id);
+  //例外処理
+  try {
+    // DBへ接続
+    $dbh = dbConnect();
+    // SQL文作成
+    $sql = 'SELECT * from bord where id = :id';
+    $data = array(':id' => $id);
+    // クエリ実行
+    $stmt = queryPost($dbh, $sql, $data);
+    $rst = $stmt->fetch(PDO::FETCH_ASSOC);
+    debug ('掲示板テーブルから取得したdbデータ:' .print_r($rst,true));
+    $delete_flg = $rst['delete_flg'];
+    debug ('掲示板テーブルのdelete-flg:' .print_r($delete_flg,true));
+    
+      
+    if(!empty($rst) && (int)$delete_flg === 0){
+      // 掲示板があればメッセージを取得
+          debug ('メッセージ取得に行く');
+          $sql = 'SELECT * FROM message WHERE bord_id = :id AND delete_flg = 0 ORDER BY send_date ASC';
+          $data = array(':id' => $rst['id']);
+          //クエリ実行
+          $stmt = queryPost($dbh, $sql, $data);
+          $rst['msg'] = $stmt->fetchAll();
+        }elseif((int)$delete_flg === 1){
+          debug ('1でリターンする');
+          return 1;
+        }
+    if($rst){
+        //クエリ結果の全データを返却
+        return $rst;
+        
+    }else{
+        return false;
+    }
 
+  } catch (Exception $e) {
+    error_log('エラー発生:' . $e->getMessage());
+  }
+}
 function getCategory(){
   debug('カテゴリー情報を取得します。');
   //例外処理
