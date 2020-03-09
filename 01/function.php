@@ -177,12 +177,12 @@ function validNumber($str, $key) {
 function validLength($str, $key, $len = 8){
   if( mb_strlen($str) !== $len){
     global $err_msg;
-    $err_msg[$key] = MSG14;
+    $err_msg[$key] = $len . MSG14;
   }
 }
 // パスワードチェック
 function validPass($str, $key) {
-  // 半角英数字チェク
+  // 半角英数字チェック
   validHalf($str, $key);
   // 最大文字数チェック
   validMaxLen($str, $key, 255);
@@ -215,7 +215,7 @@ function dbConnect(){
   $password = 'root';
   $options = array(
     //SQL実行失敗時にはエラーコードのみ設定
-    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+    PDO::ATTR_ERRMODE => PDO::ERRMODE_SILENT,
     // デフォルトフェッチモードを連想配列型式に設定
     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
     // バッファードクエリを使う（一度に結果セットを全て取得し、サーバー負荷を軽減）
@@ -240,10 +240,11 @@ function queryPost($dbh, $sql, $data){
   //プレースホルダに値をセットし、SQL文を実行
   if(!$stmt->execute($data)){
     debug('クエリに失敗しました。');
+    debug('失敗したSQL：'.print_r($stmt,true));
     $err_msg['common'] = MSG07;
     return false;
   }
-  debug('クエリ成功.');
+  debug('クエリ成功。');
   return $stmt;
 }
 // ユーザー情報取得関数
@@ -275,9 +276,8 @@ function getUser($u_id) {
   } catch (Exception $e) {
     error_log('エラー発生 :' .$e->getMessage());
   }
-  // クエリ結果のデータを返却
-  // return $stmt->fetch(PDO::FETCH_ASSOC);
 }
+
 function getProduct($u_id, $p_id){
   debug('商品情報を取得します。');
   debug('ユーザーID : '.$u_id);
@@ -286,7 +286,7 @@ function getProduct($u_id, $p_id){
   try {
     // DBへ接続
     $dbh = dbConnect();
-    // DB文作成
+    // SQL文作成
     $sql = 'SELECT * FROM product WHERE user_id = :u_id AND id = :p_id AND delete_flg = 0';
     $data = array(':u_id' => $u_id, ':p_id' => $p_id);
     // クエリ実行
@@ -303,13 +303,52 @@ function getProduct($u_id, $p_id){
     error_log('エラー発生:' . $e->getMessage());
   }
 }
+
+function getProductList($currentMinNum = 1, $span = 20){
+  debug('商品情報を取得します。');
+  //例外処理
+  try {
+    // DBへ接続
+    $dbh = dbConnect();
+    // 件数用のSQL文作成
+    $sql = 'SELECT id FROM product';
+    $data = array();
+    // クエリ実行
+    $stmt = queryPost($dbh, $sql, $data);
+    $rst['total'] = $stmt->rowCount(); // 総レコード数
+    $rst['total_page'] = ceil($rst['total']/$span); // 総ページ数
+    if(!$stmt){   
+      return false;
+    }
+
+    // ページング用のSQL文作成
+    $sql = 'SELECT * FROM product';
+    $sql .= ' LIMIT '.$span.' OFFSET '.$currentMinNum;
+    $data = array();
+    debug('SQL : '.$sql);
+    // クエリ実行
+    $stmt = queryPost($dbh, $sql, $data);
+
+    if($stmt){
+      // クエリ結果の全レコードを格納
+      $rst['data'] = $stmt->fetchAll();
+      debug('$rstの中身：'.print_r($rst, true));
+      return $rst;
+    }else{
+      return false;
+    }
+  } catch (Exception $e) {
+    error_log('エラー発生:' . $e->getMessage());
+  }
+}
+
 function getCategory(){
   debug('カテゴリー情報を取得します。');
   //例外処理
   try {
     // DBへ接続
     $dbh = dbConnect();
-    // DB文作成
+    // SQL文作成
     $sql = 'SELECT * FROM category';
     $data = array();
     // クエリ実行
@@ -317,7 +356,7 @@ function getCategory(){
 
     if($stmt){
       // クエリ結果の全データを返却
-      return $stmt->fetchALL();
+      return $stmt->fetchAll();
     }else{
       return false;
     }
@@ -349,6 +388,10 @@ function sendMail($from, $to, $subject, $comment) {
 //================================
 // その他
 //================================
+// サニタイズ
+function sanitize($str){
+  return htmlspecialchars($str, ENT_QUOTES);
+}
 // フォーム入力保持
 function getFormData($str) {
   global $dbFormData;
@@ -359,22 +402,22 @@ function getFormData($str) {
     if(!empty($err_msg[$str])){
       // POSTにデータがある場合
       if(isset($_POST[$str])){ //金額や郵便番号などのフォームで数字や数値の0が入っている場合もあるので、issetを使うこと
-        return $_POST[$str];
+        return sanitize($_POST[$str]);
       } else {
         // ない場合（フォームにエラーがある=POSTされてるはずなので、まずありえないが）はDBの情報を表示
-        return $dbFormData[$str];
+        return sanitize($dbFormData[$str]);
       }
     } else {
       // POSTにデータがあり、DBの情報と違う場合（このフォームも変更していてエラーはないが、他のフォームでひっかかっている状態）
       if(isset($_POST[$str]) && $_POST[$str] !== $dbFormData[$str]) {
-        return $_POST[$str];
+        return sanitize($_POST[$str]);
       }else { //そもそも変更していない
-        return $dbFormData[$str];
+        return sanitize($dbFormData[$str]);
       }
     }
   } else {
     if(isset($_POST[$str])) {
-      return $_POST[$str];
+      return sanitize($_POST[$str]);
     }
   }
 }
