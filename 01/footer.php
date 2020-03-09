@@ -20,7 +20,7 @@
     // 画像ライブプレビュー
     var $dropArea = $('.area-drop');
     var $fileInput = $('.input-file');
-    $dropArea.on('click', function(e){
+    $dropArea.on('dragover', function(e){
       e.stopPropagation();
       e.preventDefault();
       $(this).css('border', '3px #ccc dashed');
@@ -54,6 +54,12 @@
       $countView.html($(this).val().length);
     });
     
+    //画面切替
+    var $switchImgSubs = $('.js-switch-img-sub');
+    var $switchImgMain = $('#js-switch-img-main');
+    $switchImgSubs.on('click',function(e){
+      $switchImgMain.attr('src',$(this).attr('src'));
+    });
   });
 </script>
 </body>
