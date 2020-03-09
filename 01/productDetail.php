@@ -156,12 +156,12 @@ require('head.php');
         </div>
         <div class="product-img-container">
           <div class="img-main">
-            <img src="<?php echo showImg(sanitize($viewData['pic1'])); ?>" alt="メイン画像：<?php echo sanitze($viewData['name']); ?>" id="js-switch-img-main">
+            <img src="<?php echo showImg(sanitize($viewData['pic1'])); ?>" alt="メイン画像：<?php echo sanitize($viewData['name']); ?>" id="js-switch-img-main">
           </div>
           <div class="img-sub">
-            <img src="<?php echo showImg(sanitize($viewData['pic1'])); ?>" alt="画像1：<?php echo sanitze($viewData['name']); ?>" class="js-switch-img-sub">
-            <img src="<?php echo showImg(sanitize($viewData['pic2'])); ?>" alt="画像2：<?php echo sanitze($viewData['name']); ?>" class="js-switch-img-sub">
-            <img src="<?php echo showImg(sanitize($viewData['pic3'])); ?>" alt="画像3：<?php echo sanitze($viewData['name']); ?>" class="js-switch-img-sub">        
+            <img src="<?php echo showImg(sanitize($viewData['pic1'])); ?>" alt="画像1：<?php echo sanitize($viewData['name']); ?>" class="js-switch-img-sub">
+            <img src="<?php echo showImg(sanitize($viewData['pic2'])); ?>" alt="画像2：<?php echo sanitize($viewData['name']); ?>" class="js-switch-img-sub">
+            <img src="<?php echo showImg(sanitize($viewData['pic3'])); ?>" alt="画像3：<?php echo sanitize($viewData['name']); ?>" class="js-switch-img-sub">        
           </div>
         </div>
         <div class="product-detail">
@@ -171,7 +171,7 @@ require('head.php');
         </div>
         <div class="product-buy">
           <div class="item-left">
-            <a href="index.php<?php appendGetParam(array('p_id')); ?>">&lt; 商品一覧に戻る</a>
+            <a href="index.php<?php echo appendGetParam(array('p_id')); ?>">&lt; 商品一覧に戻る</a>
           </div>
           <form action="" method="post"> <!-- formタブを追加し、ボタンをinputに変更し、style追加 -->
             <div class="item-right">
