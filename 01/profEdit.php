@@ -4,7 +4,7 @@
 require('function.php');
 
 debug('「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「');
-debug('「 プロフィール編集ページ ');
+debug(' プロフィール編集ページ ');
 debug('「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「');
 debugLogStart();
 
@@ -22,7 +22,8 @@ debug('取得したユーザー情報 :' . print_r($dbFormData, true));
 // POST送信されていた場合
 if(!empty($_POST)) {
   debug('POST送信があります。');
-  debug('POST情報 :' . print_r($_POST, true));
+  debug('POST情報 ：' . print_r($_POST, true));
+  debug('FILE情報：'.print_r($_FILES, true));
 
   // 変数にユーザー情報を代入
   $username = $_POST['username'];
@@ -31,6 +32,10 @@ if(!empty($_POST)) {
   $addr = $_POST['addr'];
   $age = $_POST['age'];
   $email = $_POST['email'];
+  //画像をアップロードし、パスを格納
+  $pic = (!empty($_FILES['pic']['name'])) ? uploadImg($_FILES['pic'], 'pic') : '';
+  // 画像をPOSTしてない（登録していない）が既にDBに登録されている場合、DBのパスを入れる（POSTには反映されないので）
+  $pic = (empty($pic) && !empty($dbFormData['pic'])) ? $dbFormData['pic'] : $pic;
 
   // DBの情報と入力情報が異なる場合にバリデーションを行う
   if($dbFormData['username'] !== $username) {
@@ -75,8 +80,8 @@ if(!empty($_POST)) {
       // DBへ接続
       $dbh = dbConnect();
       // SQL文作成
-      $sql = 'UPDATE users SET username = :u_name, tel = :tel, zip = :zip, addr = :addr, age = :age, email = :email WHERE id = :u_id AND delete_flg = 0';
-      $data = array(':u_name' => $username, ':tel' => $tel, ':zip' => $zip, ':addr' => $addr, ':age' => $age, ':email' => $email, ':u_id' => $dbFormData['id']);
+      $sql = 'UPDATE users SET username = :u_name, tel = :tel, zip = :zip, addr = :addr, age = :age, email = :email, pic = :pic WHERE id = :u_id AND delete_flg = 0';
+      $data = array(':u_name' => $username, ':tel' => $tel, ':zip' => $zip, ':addr' => $addr, ':age' => $age, ':email' => $email, ':pic' => $pic, ':u_id' => $dbFormData['id']);
       // クエリ実行
       $stmt = queryPost($dbh, $sql, $data);
 
@@ -119,7 +124,7 @@ require('head.php');
       <!-- Main -->
       <section id="main" >
         <div class="form-container">
-          <form action="" method="post" class="form">
+          <form action="" method="post" class="form" enctype="multipart/form-data">
             <div class="area-msg">
               <?php
               if(!empty($err_msg['common'])) echo $err_msg['common'];
@@ -179,7 +184,18 @@ require('head.php');
               if(!empty($err_msg['email'])) echo $err_msg['email'];
               ?>
             </div>
-
+            プロフィール画像
+            <label class="area-drop <?php if(!empty($err_msg['pic'])) echo 'err' ?>" style="height:370px;line-height:370px;">
+              <input type="hidden" name="MAX_FILE_SIZE" value="3145728">
+              <input type="file" name="pic" class="input-file" style="height:370px;">
+              <img src="<?php echo getFormData('pic'); ?>" alt="" class="prev-img" style="<?php if(empty(getFormData('pic'))) echo 'display:none;' ?>">
+                ドラッグ＆ドロップ
+            </label>
+            <div class="area-msg">
+              <?php
+              if(!empty($err_msg['pic'])) echo $err_msg['pic'];
+              ?>
+            </div>
             <div class="btn-container">
               <input type="submit" class="btn btn-mid" value="変更する">
             </div>
