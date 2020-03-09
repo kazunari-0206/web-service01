@@ -140,6 +140,19 @@ require('head.php');
       .product-buy .btn:hover{
         cursor: pointer;
       }
+      /*お気に入りアイコン*/
+      .icn-like{
+        float:right;
+        color: #ddd;
+      }
+      .icn-like:hover{
+        cursor: pointer;
+      }
+      .icn-like.active{
+        float:right;
+        color: #fe8a8b;
+      }
+
     </style>
 
     <!-- ヘッダー -->
@@ -156,6 +169,7 @@ require('head.php');
         <div class="title">
           <span class="badge"><?php echo sanitize($viewData['category']); ?></span>
           <?php echo sanitize($viewData['name']); ?>
+          <i class="fa fa-heart icn-like js-click-like <?php if(isLike($_SESSION['user_id'], $viewData['id'])){ echo 'active'; } ?>" aria-hidden="true" data-productid="<?php echo sanitize($viewData['id']); ?>" ></i>
         </div>
         <div class="product-img-container">
           <div class="img-main">
