@@ -27,7 +27,7 @@ if(isset($_POST['productId']) && isset($_SESSION['user_id']) && isLogin()){
     // クエリ実行
     $stmt = queryPost($dbh, $sql, $data);
     $resultCount = $stmt->rowCount();
-    debug($resultCount);
+    debug('$resultCountの数：'.$resultCount);
     // レコードが１件でもある場合
     if(!empty($resultCount)){
       // レコードを削除する
